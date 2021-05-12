@@ -1,28 +1,48 @@
 <template>
-  <h1>Story Garden</h1>
-  <img alt="logo" src="./assets/garden.png" />
-  <h1>Where Words Come Alive</h1>
-  <h4 style="color: #a1bcbd">This site is under construction</h4>
+  <Landing />
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld.vue";
+import Landing from "./views/Landing";
 
 export default {
   name: "App",
   components: {
-    // HelloWorld,
+    Landing,
   },
 };
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+
+:root {
+  --color-black: #000;
+  --color-dark: #373d4c;
+  --color-gray-200: #b8b8b8;
+  --color-gray-100: #f3f3f3;
+  --color-white: #fff;
+
+  --color-accent: #6c34ee;
+
+  --font-primary: "Rubik", sans-serif;
+  --font-text: "Inter", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--color-gray-100);
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  font-family: var(--font-primary);
+  color: var(--color-black);
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
