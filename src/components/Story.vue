@@ -75,7 +75,7 @@ span:active {
 h2,
 h5,
 p {
-  width: 46ch;
+  width: calc(46ch, max-parent);
 }
 
 h5,

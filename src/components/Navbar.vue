@@ -1,7 +1,7 @@
 <template>
   <section class="container-fluid">
     <div class="row">
-      <div class="col-sm-4 offset-sm-2">
+      <div class="col-sm-4 offset-sm-2 pb-2">
         <Logo />
       </div>
       <div class="col-sm-4">
