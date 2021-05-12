@@ -76,7 +76,7 @@ h2,
 h5,
 p {
   /* this fixed the text overflow */
-  width: calc(46ch, max-parent);
+  width: min(46ch, max-parent);
 }
 
 h5,
