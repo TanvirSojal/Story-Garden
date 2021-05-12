@@ -7,7 +7,7 @@
       <div class="col-sm-4">
         <ul class="nav auth">
           <li class="nav-item">
-            <button class="">
+            <button class="signin">
               Sign In
             </button>
           </li>
@@ -50,15 +50,37 @@ button {
   background: var(--color-white);
   border: none;
   font-weight: bold;
-}
-
-.member {
-  border: 2px solid var(--color-black);
+  margin-left: 1rem;
 }
 
 button:hover {
   color: var(--color-white);
+}
+.signin {
+  border: 2px solid var(--color-white);
+}
+.member {
+  border: 2px solid var(--color-black);
+}
+
+.member:hover {
   background: var(--color-black);
   border: 2px solid var(--color-black);
+}
+
+.member:active {
+  background: var(--color-white);
+  color: var(--color-black);
+}
+
+.signin:hover {
+  background: var(--color-accent);
+  border: 2px solid var(--color-accent);
+}
+
+.signin:active {
+  color: var(--color-black);
+  background: var(--color-white);
+  border: 2px solid var(--color-accent);
 }
 </style>

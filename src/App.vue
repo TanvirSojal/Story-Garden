@@ -24,7 +24,7 @@ export default {
   --color-gray-100: #f3f3f3;
   --color-white: #fff;
 
-  --color-accent: #6c34ee;
+  --color-accent: #6930c3;
 
   --font-primary: "Rubik", sans-serif;
   --font-text: "Inter", sans-serif;
