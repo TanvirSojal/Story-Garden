@@ -1,26 +1,41 @@
 <template>
-  <section>
-    <!-- <img src="https://source.unsplash.com/user/dotjpg/" /> -->
-    <div class="row">
-      <div class="col-sm-8">
-        <h2>{{ story.title }}</h2>
-        <p class="story">
-          story.body
-        </p>
-      </div>
-      <div class="col-sm-4 info">
-        <p class="written-by">Written By</p>
-        <h5>{{ story.author }}</h5>
-        <p class="date">{{ story.date }}</p>
-      </div>
+  <div class="row">
+    <div class="col-sm-8 offset-sm-2">
+      <section>
+        <!-- <img src="https://source.unsplash.com/user/dotjpg/" /> -->
+
+        <div class="row">
+          <div class="col-sm-8">
+            <h2>{{ story.title }}</h2>
+            <p class="story">
+              {{ story.body }}
+            </p>
+          </div>
+          <div class="col-sm-4 info">
+            <p class="written-by">Written By</p>
+            <h5>{{ story.author }}</h5>
+            <p class="date">{{ story.date }}</p>
+          </div>
+        </div>
+      </section>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
+import PostService from "../services/PostService";
 export default {
   name: "Story",
-  props: { story: Object },
+  data() {
+    return {
+      story: Object,
+    };
+  },
+  created() {
+    PostService.findById(this.$route.params.id).then(
+      (data) => (this.story = data)
+    );
+  },
 };
 </script>
 

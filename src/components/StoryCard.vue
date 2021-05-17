@@ -1,25 +1,32 @@
 <template>
-  <section>
-    <!-- <img src="https://source.unsplash.com/user/dotjpg/" /> -->
-    <div class="row">
-      <div class="col-sm-8">
-        <h2>{{ story.title }}</h2>
-        <p class="story">
-          {{
-            story.body.length > 200
-              ? story.body.slice(0, 200) + "..."
-              : story.body
-          }}
-          <span>{{ story.body.length > 200 ? "Read More" : "" }}</span>
-        </p>
+  <router-link
+    :to="{
+      name: 'Story',
+      params: { id: story._id },
+    }"
+  >
+    <section>
+      <!-- <img src="https://source.unsplash.com/user/dotjpg/" /> -->
+      <div class="row">
+        <div class="col-sm-8">
+          <h2>{{ story.title }}</h2>
+          <p class="story">
+            {{
+              story.body.length > 200
+                ? story.body.slice(0, 200) + "..."
+                : story.body
+            }}
+            <span>{{ story.body.length > 200 ? "Read More" : "" }}</span>
+          </p>
+        </div>
+        <div class="col-sm-4 info">
+          <p class="written-by">Written By</p>
+          <h5>{{ story.author }}</h5>
+          <p class="date">{{ story.date }}</p>
+        </div>
       </div>
-      <div class="col-sm-4 info">
-        <p class="written-by">Written By</p>
-        <h5>{{ story.author }}</h5>
-        <p class="date">{{ story.date }}</p>
-      </div>
-    </div>
-  </section>
+    </section>
+  </router-link>
 </template>
 
 <script>
@@ -30,6 +37,11 @@ export default {
 </script>
 
 <style scoped>
+/* to remove router-link text-decoration */
+a {
+  text-decoration: none;
+  color: inherit;
+}
 section {
   margin-top: 2rem;
   padding: 2rem;
