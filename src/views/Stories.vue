@@ -11,20 +11,23 @@
 </template>
 
 <script>
-import StoryCard from "./StoryCard";
+import PostService from "../services/PostService";
+import StoryCard from "../components/StoryCard";
 
 export default {
   name: "Stories",
-  props: {
-    stories: Array,
+  data() {
+    return {
+      stories: Array,
+    };
   },
   components: {
     StoryCard,
   },
+  created() {
+    PostService.findAll().then((data) => (this.stories = data.reverse()));
+  },
 };
 </script>
 
-<style scoped>
-.stories {
-}
-</style>
+<style scoped></style>

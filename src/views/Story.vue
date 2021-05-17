@@ -13,7 +13,7 @@
           </div>
           <div class="col-sm-4 info">
             <p class="written-by">Written By</p>
-            <h5>{{ story.author }}</h5>
+            <h5 class="author">{{ story.author }}</h5>
             <p class="date">{{ story.date }}</p>
           </div>
         </div>
@@ -46,26 +46,23 @@ section {
   background: var(--color-white);
 }
 
-section:hover {
-  /* box-shadow: 2px 2px 4px var(--color-gray-200); */
-  /* text-decoration: underline; */
-  /* border-left: 4px solid var(--color-accent); */
+/* section:hover {
   box-shadow: -0.4rem 0rem var(--color-accent);
   cursor: pointer;
 }
 
 section:active {
   box-shadow: none;
-  /* border: none; */
-}
+} */
 
-span {
+.author {
   color: var(--color-accent);
 }
-span:hover {
+.author:hover {
+  cursor: pointer;
   text-decoration: underline;
 }
-span:active {
+.author:active {
   text-decoration: none;
 }
 
