@@ -2,17 +2,23 @@
   <section class="container-fluid">
     <div class="row">
       <div class="col-sm-4 offset-sm-2 pb-2">
-        <Logo />
+        <router-link to="/">
+          <Logo />
+        </router-link>
       </div>
       <div class="col-sm-4">
         <ul class="nav auth">
           <li class="nav-item">
-            <button class="signin">
-              Sign In
-            </button>
+            <router-link to="/signin">
+              <button class="signin">
+                Sign In
+              </button>
+            </router-link>
           </li>
           <li class="nav-item">
-            <button class="member">Become a Member</button>
+            <router-link to="/registration">
+              <button class="member">Become a Member</button>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -31,6 +37,12 @@ export default {
 </script>
 
 <style scoped>
+/* to remove router-link text-decoration */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 section {
   padding-top: 3rem;
   padding-bottom: 1rem;

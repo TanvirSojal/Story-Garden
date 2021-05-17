@@ -31,7 +31,7 @@ export default {
 
 <style scoped>
 section {
-  margin-top: 3rem;
+  margin-top: 2rem;
   padding: 2rem;
   background: var(--color-white);
 }

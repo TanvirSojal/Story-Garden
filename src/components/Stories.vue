@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid stories">
+  <div class="container-fluid">
     <div v-for="story in stories" :key="story._id">
       <div class="row">
         <div class="col-sm-8 offset-sm-2">
@@ -26,6 +26,5 @@ export default {
 
 <style scoped>
 .stories {
-  margin-bottom: 2rem;
 }
 </style>
