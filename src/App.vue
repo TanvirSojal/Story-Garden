@@ -1,14 +1,14 @@
 <template>
-  <Landing />
+  <router-view />
 </template>
 
 <script>
-import Landing from "./views/Landing";
+// import Home from "./views/Home";
 
 export default {
   name: "App",
   components: {
-    Landing,
+    // Home,
   },
 };
 </script>

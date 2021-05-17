@@ -12,7 +12,7 @@ import Stories from "../components/Stories";
 import PostService from "../services/PostService";
 
 export default {
-  name: "Landing",
+  name: "Home",
   data() {
     return { stories: Array };
   },
