@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  name: "Story",
+  name: "StoryCard",
   props: { story: Object },
 };
 </script>

@@ -3,7 +3,7 @@
     <div v-for="story in stories" :key="story._id">
       <div class="row">
         <div class="col-sm-8 offset-sm-2">
-          <Story :story="story" />
+          <StoryCard :story="story" />
         </div>
       </div>
     </div>
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Story from "./Story";
+import StoryCard from "./StoryCard";
 
 export default {
   name: "Stories",
@@ -19,7 +19,7 @@ export default {
     stories: Array,
   },
   components: {
-    Story,
+    StoryCard,
   },
 };
 </script>

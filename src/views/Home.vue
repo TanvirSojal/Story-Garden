@@ -1,12 +1,11 @@
 <template>
-  <Navbar />
   <Stories :stories="stories" />
   <!-- <h3>{{ subtitle }}</h3> -->
 </template>
 
 <script>
 // import { ref } from "vue";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
 import Stories from "../components/Stories";
 
 import PostService from "../services/PostService";
@@ -17,7 +16,6 @@ export default {
     return { stories: Array };
   },
   components: {
-    Navbar,
     Stories,
   },
   setup() {},
