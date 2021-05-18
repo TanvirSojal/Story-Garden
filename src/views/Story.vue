@@ -1,23 +1,25 @@
 <template>
-  <div class="row">
-    <div class="col-sm-8 offset-sm-2">
-      <section>
-        <!-- <img src="https://source.unsplash.com/user/dotjpg/" /> -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-8 offset-sm-2">
+        <section>
+          <!-- <img src="https://source.unsplash.com/user/dotjpg/" /> -->
 
-        <div class="row">
-          <div class="col-sm-8">
-            <h2>{{ story.title }}</h2>
-            <p class="story">
-              {{ story.body }}
-            </p>
+          <div class="row">
+            <div class="col-sm-8">
+              <h2>{{ story.title }}</h2>
+              <p class="story">
+                {{ story.body }}
+              </p>
+            </div>
+            <div class="col-sm-4 info">
+              <p class="written-by">Written By</p>
+              <h5 class="author">{{ story.author }}</h5>
+              <p class="date">{{ story.date }}</p>
+            </div>
           </div>
-          <div class="col-sm-4 info">
-            <p class="written-by">Written By</p>
-            <h5 class="author">{{ story.author }}</h5>
-            <p class="date">{{ story.date }}</p>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   </div>
 </template>
@@ -45,7 +47,6 @@ section {
   padding: 2rem;
   background: var(--color-white);
 }
-
 /* section:hover {
   box-shadow: -0.4rem 0rem var(--color-accent);
   cursor: pointer;
