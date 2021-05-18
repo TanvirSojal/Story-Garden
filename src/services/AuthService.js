@@ -5,7 +5,7 @@ const AuthService = {
     return axios
       .post(process.env.VUE_APP_USERS_URI, request)
       .then((response) => {
-        console.log(response);
+        console.log(response.status);
         return true;
       })
       .catch((err) => {

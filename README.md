@@ -1,24 +1,3 @@
-# storygarden
+![sg](https://user-images.githubusercontent.com/14056189/118709959-76c4ee00-b83f-11eb-8aba-f1715921b7c0.png)
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+#### Live Demo: https://storygarden.herokuapp.com/
