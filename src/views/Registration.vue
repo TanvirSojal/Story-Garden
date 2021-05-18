@@ -8,7 +8,7 @@
               <h3 class="mb-4">Registration</h3>
             </div>
           </div>
-          <form>
+          <form @submit="handleRegistration">
             <div class="pt-3">
               <div class="row pt-2 pb-3">
                 <div class="col-sm-12">
@@ -17,7 +17,7 @@
               </div>
               <div class="row" id="name-section">
                 <div class="col-sm-12">
-                  <input type="text" required id="name" />
+                  <input v-model="user.name" type="text" required />
                 </div>
               </div>
             </div>
@@ -29,7 +29,7 @@
               </div>
               <div class="row" id="username-section">
                 <div class="col-sm-12">
-                  <input type="text" required id="username" />
+                  <input v-model="user.username" type="text" required />
                 </div>
               </div>
             </div>
@@ -42,7 +42,7 @@
               </div>
               <div class="row" id="password-section">
                 <div class="col-sm-12">
-                  <input type="text" required id="password" />
+                  <input v-model="user.password" type="password" required />
                 </div>
               </div>
             </div>
@@ -56,7 +56,11 @@
               </div>
               <div class="row" id="confirm-password-section">
                 <div class="col-sm-12">
-                  <input type="text" required id="confirm-password" />
+                  <input
+                    v-model="user.confirmedPassword"
+                    type="password"
+                    required
+                  />
                 </div>
               </div>
             </div>
@@ -66,7 +70,7 @@
               </div>
             </div>
             <div class="row pt-5">
-              <label id="signin-status"></label>
+              <label id="status">{{ status }}</label>
             </div>
           </form>
         </section>
@@ -76,9 +80,44 @@
 </template>
 
 <script>
+import AuthService from "../services/AuthService";
+import router from "../router";
+
 export default {
-  name: "Login",
-  setup() {},
+  name: "Registration",
+  data() {
+    return {
+      user: {
+        name: "",
+        username: "",
+        password: "",
+        confirmedPassword: "",
+      },
+      status: "",
+    };
+  },
+  methods: {
+    handleRegistration(e) {
+      e.preventDefault();
+      console.log("register");
+      if (!this.checkPasswordMatch(this.password, this.confirmedPassword)) {
+        this.status = "Passwords did not match!";
+      }
+      AuthService.register({
+        name: this.user.name,
+        username: this.user.username,
+        password: this.user.password,
+      }).then((data) =>
+        data
+          ? router.push("/registration-success")
+          : (this.status = "User Already Exists!")
+      );
+    },
+
+    checkPasswordMatch(password, confirmedPassword) {
+      return password === confirmedPassword;
+    },
+  },
 };
 </script>
 
@@ -143,7 +182,7 @@ button:active {
   color: var(--color-accent);
 }
 
-#signin-status {
+#status {
   color: red;
 }
 </style>

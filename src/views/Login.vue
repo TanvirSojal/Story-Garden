@@ -8,7 +8,7 @@
               <h3 class="mb-4">Sign In</h3>
             </div>
           </div>
-          <form>
+          <form @submit="handleSignIn">
             <div class="pt-3">
               <div class="row pt-2 pb-3">
                 <div class="col-sm-12">
@@ -17,7 +17,7 @@
               </div>
               <div class="row" id="username-section">
                 <div class="col-sm-12">
-                  <input id="username" />
+                  <input type="text" required id="username" />
                 </div>
               </div>
             </div>
@@ -30,18 +30,18 @@
               </div>
               <div class="row" id="password-section">
                 <div class="col-sm-12">
-                  <input id="password" />
+                  <input type="password" required id="password" />
                 </div>
               </div>
             </div>
 
             <div class="row pt-5">
               <div class="col-sm-12">
-                <button class="signin">Sign In</button>
+                <button>Sign In</button>
               </div>
             </div>
             <div class="row pt-5">
-              <label id="signin-status"></label>
+              <label id="status"></label>
             </div>
           </form>
         </section>
@@ -51,9 +51,17 @@
 </template>
 
 <script>
+// import AuthService from "../services/AuthService";
 export default {
   name: "Login",
   setup() {},
+  methods: {
+    handleSignIn(e) {
+      e.preventDefault();
+
+      console.log("sign in");
+    },
+  },
 };
 </script>
 
@@ -116,7 +124,7 @@ button:active {
   color: var(--color-accent);
 }
 
-#signin-status {
+#status {
   color: red;
 }
 </style>
