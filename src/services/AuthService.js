@@ -19,8 +19,13 @@ const AuthService = {
     return axios
       .post(uri + "/login", request)
       .then((response) => {
-        console.log("login", response.status);
-
+        // console.log("login", response);
+        localStorage.setItem(
+          "storygarden-token",
+          response.headers["auth-token"]
+        );
+        localStorage.setItem("storygarden-name", response.data.name);
+        localStorage.setItem("storygarden-username", response.data.username);
         return true;
       })
       .catch((err) => {
@@ -28,7 +33,11 @@ const AuthService = {
         return false;
       });
   },
-  // logout: (request) => {},
+  logout: () => {
+    localStorage.removeItem("storygarden-token");
+    localStorage.removeItem("storygarden-name");
+    localStorage.removeItem("storygarden-username");
+  },
 };
 
 export default AuthService;
