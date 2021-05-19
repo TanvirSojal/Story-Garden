@@ -5,6 +5,8 @@ import Registration from "../views/Registration";
 import RegistrationSuccess from "../views/RegistrationSuccess";
 import Login from "../views/Login";
 import Story from "../views/Story";
+import UserStories from "../views/UserStories";
+import StoryForm from "../views/StoryForm";
 
 const routes = [
   {
@@ -31,6 +33,16 @@ const routes = [
     path: "/stories/:id",
     name: "Story",
     component: Story,
+  },
+  {
+    path: "/my-stories",
+    name: "UserStories",
+    component: UserStories,
+  },
+  {
+    path: "/create",
+    name: "CreateStory",
+    component: StoryForm,
   },
 ];
 

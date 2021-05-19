@@ -7,7 +7,7 @@
         </router-link>
       </div>
       <div class="col-sm-4">
-        <ul class="nav auth">
+        <ul v-if="isLoggedIn === 'FALSE'" class="nav auth">
           <li class="nav-item">
             <router-link to="/signin">
               <button class="signin">
@@ -18,6 +18,27 @@
           <li class="nav-item">
             <router-link to="/registration">
               <button class="member">Become a Member</button>
+            </router-link>
+          </li>
+        </ul>
+        <ul v-else class="nav auth">
+          <li class="nav-item">
+            <router-link to="/create">
+              <button class="signin">
+                Write Story
+              </button>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/my-stories">
+              <button class="signin">
+                Your Stories
+              </button>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/registration">
+              <button class="member">Sign Out</button>
             </router-link>
           </li>
         </ul>
@@ -32,6 +53,17 @@ export default {
   name: "Navbar",
   components: {
     Logo,
+  },
+  data() {
+    return {
+      isLoggedIn: "FALSE",
+    };
+  },
+  created() {
+    const username = localStorage.getItem("storygarden-username");
+    if (username) {
+      this.isLoggedIn = "TRUE";
+    }
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <Navbar />
-  <router-view />
+  <router-view @loggedIn="handleLogin" />
 </template>
 
 <script>
@@ -10,6 +10,15 @@ export default {
   name: "App",
   components: {
     Navbar,
+  },
+  data() {
+    return {
+      user: undefined,
+      isLoggedIn: "FALSE",
+    };
+  },
+  methods: {
+    handleLogin() {},
   },
 };
 </script>

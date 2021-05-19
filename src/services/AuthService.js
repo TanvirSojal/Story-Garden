@@ -15,7 +15,7 @@ const AuthService = {
         return false;
       });
   },
-  login: (request) => {
+  login: async (request) => {
     return axios
       .post(uri + "/login", request)
       .then((response) => {
