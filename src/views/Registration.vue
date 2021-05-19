@@ -99,7 +99,6 @@ export default {
   methods: {
     handleRegistration(e) {
       e.preventDefault();
-      console.log("register");
       if (!this.checkPasswordMatch(this.password, this.confirmedPassword)) {
         this.status = "Passwords did not match!";
       }

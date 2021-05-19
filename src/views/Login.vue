@@ -17,7 +17,7 @@
               </div>
               <div class="row" id="username-section">
                 <div class="col-sm-12">
-                  <input type="text" required id="username" />
+                  <input v-model="user.username" type="text" required />
                 </div>
               </div>
             </div>
@@ -30,7 +30,7 @@
               </div>
               <div class="row" id="password-section">
                 <div class="col-sm-12">
-                  <input type="password" required id="password" />
+                  <input v-model="user.password" type="password" required />
                 </div>
               </div>
             </div>
@@ -41,7 +41,7 @@
               </div>
             </div>
             <div class="row pt-5">
-              <label id="status"></label>
+              <label id="status">{{ status }}</label>
             </div>
           </form>
         </section>
@@ -51,15 +51,36 @@
 </template>
 
 <script>
-// import AuthService from "../services/AuthService";
+import AuthService from "../services/AuthService";
+import router from "../router";
 export default {
   name: "Login",
-  setup() {},
+  data() {
+    return {
+      user: {
+        username: "",
+        password: "",
+      },
+      status: "",
+    };
+  },
   methods: {
     handleSignIn(e) {
       e.preventDefault();
-
       console.log("sign in");
+      if (!this.user.username || !this.user.password) {
+        this.status = "Credentials can not be empty!";
+      }
+      AuthService.login({
+        username: this.user.username,
+        password: this.user.password,
+      }).then((response) => {
+        if (response) {
+          router.push("/");
+        } else {
+          this.status = "Invalid credentials!";
+        }
+      });
     },
   },
 };
