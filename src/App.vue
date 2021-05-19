@@ -1,6 +1,6 @@
 <template>
-  <Navbar />
-  <router-view @loggedIn="handleLogin" />
+  <Navbar :loginStatus="isLoggedIn" @logout="handleLogout" />
+  <router-view @login="handleLogin" />
 </template>
 
 <script>
@@ -18,7 +18,14 @@ export default {
     };
   },
   methods: {
-    handleLogin() {},
+    handleLogin() {
+      this.isLoggedIn = "TRUE";
+      console.log("login");
+    },
+    handleLogout() {
+      this.isLoggedIn = "FALSE";
+      console.log("logout");
+    },
   },
 };
 </script>

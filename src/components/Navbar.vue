@@ -1,13 +1,17 @@
-<template>
+<template @loggedIn="handleLogin">
   <section class="container-fluid">
     <div class="row">
       <div class="col-sm-4 offset-sm-2 pb-2">
         <router-link to="/">
           <Logo />
+          {{ loginStatus }}
         </router-link>
       </div>
       <div class="col-sm-4">
-        <ul v-if="isLoggedIn === 'FALSE'" class="nav auth">
+        <ul
+          v-if="loginStatus === 'FALSE' && isLoggedIn === 'FALSE'"
+          class="nav auth"
+        >
           <li class="nav-item">
             <router-link to="/signin">
               <button class="signin">
@@ -37,9 +41,7 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/registration">
-              <button class="member">Sign Out</button>
-            </router-link>
+            <button @click="handleLogout" class="member">Sign Out</button>
           </li>
         </ul>
       </div>
@@ -49,10 +51,15 @@
 
 <script>
 import Logo from "./Logo";
+import AuthService from "../services/AuthService";
+import router from "../router";
 export default {
   name: "Navbar",
   components: {
     Logo,
+  },
+  props: {
+    loginStatus: String,
   },
   data() {
     return {
@@ -60,10 +67,29 @@ export default {
     };
   },
   created() {
-    const username = localStorage.getItem("storygarden-username");
-    if (username) {
+    console.log(this.loginStatus);
+    // check for login status prop from parent
+    if (this.loginStatus === "TRUE") {
       this.isLoggedIn = "TRUE";
+    } else {
+      // check after page reload
+      const username = localStorage.getItem("storygarden-username");
+      if (username) {
+        this.isLoggedIn = "TRUE";
+      }
     }
+  },
+  methods: {
+    handleLogin() {
+      console.log("Heared you!");
+      this.isLoggedIn = "TRUE";
+    },
+    handleLogout() {
+      AuthService.logout();
+      this.$emit("logout");
+      this.isLoggedIn = "FALSE";
+      router.push("/");
+    },
   },
 };
 </script>

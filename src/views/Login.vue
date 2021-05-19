@@ -77,7 +77,7 @@ export default {
       }).then((response) => {
         if (response) {
           // notify App that user is logged in
-          this.$emit("loggedIn");
+          this.$emit("login");
           router.push("/");
         } else {
           this.status = "Invalid credentials!";
