@@ -41,6 +41,37 @@ const PostService = {
         return false;
       });
   },
+  updateById: async (id, post) => {
+    const token = localStorage.getItem("storygarden-token");
+    return axios
+      .put(uri + "/" + id, post, {
+        headers: {
+          "auth-token": token,
+        },
+      })
+      .then((response) => response.data)
+      .catch((err) => {
+        console.log("Failed to update post!", err.message);
+        return false;
+      });
+  },
+  deleteById: async (id) => {
+    const token = localStorage.getItem("storygarden-token");
+    return axios
+      .delete(uri + "/" + id, {
+        headers: {
+          "auth-token": token,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        return true;
+      })
+      .catch((err) => {
+        console.log("Failed to delete post!", err.message);
+        return false;
+      });
+  },
 };
 
 export default PostService;

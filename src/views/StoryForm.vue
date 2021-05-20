@@ -5,7 +5,11 @@
         <section>
           <div class="row">
             <div class="col-sm-12">
-              <h3 class="mb-4">Write A New Story</h3>
+              <h3 class="mb-4">
+                {{
+                  mode === "UPDATE" ? "Update Your Story" : "Write A New Story"
+                }}
+              </h3>
             </div>
           </div>
           <div class="row">
@@ -44,7 +48,7 @@
 
             <div class="row pt-5">
               <div class="col-sm-12">
-                <button>Publish</button>
+                <button>{{ mode === "UPDATE" ? "Update" : "Publish" }}</button>
               </div>
             </div>
             <div class="row pt-5">
@@ -60,13 +64,9 @@
 <script>
 import PostService from "../services/PostService";
 import router from "../router";
+import { useRoute } from "vue-router";
 export default {
   name: "StoryForm",
-  props: {
-    title: String,
-    body: String,
-    type: String,
-  },
   data() {
     return {
       user: {
@@ -74,18 +74,28 @@ export default {
         username: "",
       },
       story: {
+        id: "",
         title: "",
         body: "",
       },
       status: "",
+      mode: "",
     };
   },
   mounted() {
     this.user.name = localStorage.getItem("storygarden-name");
     this.user.username = localStorage.getItem("storygarden-username");
 
-    this.story.title = this.title;
-    this.story.body = this.body;
+    const route = useRoute();
+    if (route.params.mode === "UPDATE") this.mode = "UPDATE";
+    else {
+      // '/update' route can not be used unless coming from story updation process
+      router.push("/create");
+      return;
+    }
+    this.story.id = route.params.id;
+    this.story.title = route.params.title;
+    this.story.body = route.params.body;
   },
   methods: {
     handlePublish(e) {
@@ -94,6 +104,12 @@ export default {
       if (!this.story.title || !this.story.body) {
         this.status = "Story title and body can not be empty!";
       }
+      this.mode === "UPDATE"
+        ? this.handleUpdateStory()
+        : this.handleCreateStory();
+    },
+
+    handleCreateStory() {
       PostService.createPost({
         title: this.story.title,
         body: this.story.body,
@@ -103,6 +119,21 @@ export default {
           router.push("/stories/" + data._id);
         } else {
           this.status = "Failed to create new story!";
+        }
+      });
+    },
+
+    handleUpdateStory() {
+      console.log("update!");
+      PostService.updateById(this.story.id, {
+        title: this.story.title,
+        body: this.story.body,
+      }).then((data) => {
+        if (data) {
+          // console.log(response);
+          router.push("/stories/" + data._id);
+        } else {
+          this.status = "Failed to update post!";
         }
       });
     },

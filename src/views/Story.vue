@@ -22,7 +22,16 @@
               </div>
               <div v-if="username === story.username" class="row mt-4">
                 <div class="col-sm-6 pt-2">
-                  <router-link to="/update"
+                  <router-link
+                    :to="{
+                      name: 'UpdateStory',
+                      params: {
+                        title: story.title,
+                        body: story.body,
+                        id: story._id,
+                        mode: 'UPDATE',
+                      },
+                    }"
                     ><button>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +50,7 @@
                   >
                 </div>
                 <div class="col-sm-6 pt-2">
-                  <button>
+                  <button @click="handleDelete">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -68,6 +77,7 @@
 
 <script>
 import PostService from "../services/PostService";
+import router from "../router";
 export default {
   name: "Story",
   data() {
@@ -81,6 +91,15 @@ export default {
     PostService.findById(this.$route.params.id).then(
       (data) => (this.story = data)
     );
+  },
+  methods: {
+    handleDelete() {
+      PostService.deleteById(this.story._id).then((response) => {
+        if (response) {
+          router.push("/");
+        }
+      });
+    },
   },
 };
 </script>
