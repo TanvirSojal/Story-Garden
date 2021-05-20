@@ -17,6 +17,7 @@ export default {
       isLoggedIn: "FALSE",
     };
   },
+  // * checking from local storage if user is already logged in
   mounted() {
     const username = localStorage.getItem("storygarden-username");
     if (username) {
