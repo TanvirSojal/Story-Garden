@@ -27,9 +27,20 @@ const PostService = {
         console.log("Failed to fetch posts by user! ", err.message)
       );
   },
-  // createPost: async(request) => {
-  //   return axios.post(uri, request)
-  // }
+  createPost: async (request) => {
+    const token = localStorage.getItem("storygarden-token");
+    return axios
+      .post(uri, request, {
+        headers: {
+          "auth-token": token,
+        },
+      })
+      .then((response) => response.data)
+      .catch((err) => {
+        console.log("Failed to create post!", err.message);
+        return false;
+      });
+  },
 };
 
 export default PostService;

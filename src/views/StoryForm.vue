@@ -58,6 +58,8 @@
 </template>
 
 <script>
+import PostService from "../services/PostService";
+import router from "../router";
 export default {
   name: "StoryForm",
   data() {
@@ -84,7 +86,17 @@ export default {
       if (!this.story.title || !this.story.body) {
         this.status = "Story title and body can not be empty!";
       }
-      console.log(this.story);
+      PostService.createPost({
+        title: this.story.title,
+        body: this.story.body,
+      }).then((data) => {
+        if (data) {
+          console.log(data);
+          router.push("/stories/" + data._id);
+        } else {
+          this.status = "Failed to create new story!";
+        }
+      });
     },
   },
 };
