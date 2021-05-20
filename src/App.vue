@@ -17,13 +17,30 @@ export default {
       isLoggedIn: "FALSE",
     };
   },
+  mounted() {
+    const username = localStorage.getItem("storygarden-username");
+    if (username) {
+      const name = localStorage.getItem("storygarden-name");
+      this.isLoggedIn = "TRUE";
+      this.user = {
+        name,
+        username,
+      };
+    }
+    console.log(this.isLoggedIn);
+  },
   methods: {
     handleLogin() {
       this.isLoggedIn = "TRUE";
+      this.user = {
+        name: localStorage.getItem("storygarden-name"),
+        username: localStorage.getItem("storygarden-username"),
+      };
       console.log("login");
     },
     handleLogout() {
       this.isLoggedIn = "FALSE";
+      this.user = undefined;
       console.log("logout");
     },
   },
