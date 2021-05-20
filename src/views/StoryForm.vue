@@ -62,6 +62,11 @@ import PostService from "../services/PostService";
 import router from "../router";
 export default {
   name: "StoryForm",
+  props: {
+    title: String,
+    body: String,
+    type: String,
+  },
   data() {
     return {
       user: {
@@ -78,6 +83,9 @@ export default {
   mounted() {
     this.user.name = localStorage.getItem("storygarden-name");
     this.user.username = localStorage.getItem("storygarden-username");
+
+    this.story.title = this.title;
+    this.story.body = this.body;
   },
   methods: {
     handlePublish(e) {

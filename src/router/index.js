@@ -44,6 +44,11 @@ const routes = [
     name: "CreateStory",
     component: StoryForm,
   },
+  {
+    path: "/update",
+    name: "UpdateStory",
+    component: StoryForm,
+  },
 ];
 
 const router = createRouter({

@@ -28,7 +28,7 @@ export default {
         username,
       };
     }
-    console.log(this.isLoggedIn);
+    console.log("Is Logged In?:", this.isLoggedIn);
   },
   methods: {
     handleLogin() {
