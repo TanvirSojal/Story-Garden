@@ -40,7 +40,7 @@
                 <button>Sign In</button>
               </div>
             </div>
-            <div class="row pt-5">
+            <div v-if="status.length > 0" class="row pt-5">
               <label id="status">{{ status }}</label>
             </div>
           </form>

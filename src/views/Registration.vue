@@ -64,12 +64,23 @@
                 </div>
               </div>
             </div>
-            <div class="row pt-5">
+            <div class="pt-2">
+              <div class="row pt-2 pb-2" style="opacity:.6">
+                <div class="col-sm-12">
+                  <p>Password length must be between 8 - 40</p>
+                  <p>
+                    Password must contain at least one numerical and one
+                    alphabetic character
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="row pt-3">
               <div class="col-sm-12">
                 <button>Register New Member</button>
               </div>
             </div>
-            <div class="row pt-5">
+            <div v-if="status.length > 0" class="row pt-5">
               <label id="status">{{ status }}</label>
             </div>
           </form>
@@ -99,9 +110,12 @@ export default {
   methods: {
     handleRegistration(e) {
       e.preventDefault();
-      if (!this.checkPasswordMatch(this.password, this.confirmedPassword)) {
-        this.status = "Passwords did not match!";
+
+      // check all password validation
+      if (!this.validatePassword()) {
+        return;
       }
+
       AuthService.register({
         name: this.user.name,
         username: this.user.username,
@@ -113,8 +127,40 @@ export default {
       );
     },
 
-    checkPasswordMatch(password, confirmedPassword) {
-      return password === confirmedPassword;
+    validatePassword() {
+      // check if the passwords match
+      if (this.user.password != this.user.confirmedPassword) {
+        this.status = "Passwords did not match!";
+        return false;
+      }
+
+      const password = this.user.password;
+      if (password.length < 8) {
+        this.status = "Password length must be at least 8!";
+        return false;
+      }
+
+      if (password.length > 40) {
+        this.status = "Password length must be at most 40!";
+        return false;
+      }
+
+      let number = false;
+      let char = false;
+
+      for (let i = 0; i < password.length; i++) {
+        if (password[i] >= "0" && password[i] <= "9") number = true;
+        if (
+          (password[i] >= "a" && password[i] <= "z") ||
+          (password[i] >= "A" && password[i] <= "Z")
+        )
+          char = true;
+      }
+      if (!number || !char) {
+        this.status = "Password must contain at least 1 number and 1 letter!";
+        return false;
+      }
+      return true;
     },
   },
 };
