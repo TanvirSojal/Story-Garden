@@ -127,6 +127,7 @@ export default {
       );
     },
 
+    // returns true/false based on validation result
     validatePassword() {
       // check if the passwords match
       if (this.user.password != this.user.confirmedPassword) {
@@ -135,6 +136,8 @@ export default {
       }
 
       const password = this.user.password;
+
+      // password length should be [8-40]
       if (password.length < 8) {
         this.status = "Password length must be at least 8!";
         return false;
@@ -145,9 +148,9 @@ export default {
         return false;
       }
 
+      // password must contain at least 1 number and 1 alphabetic character
       let number = false;
       let char = false;
-
       for (let i = 0; i < password.length; i++) {
         if (password[i] >= "0" && password[i] <= "9") number = true;
         if (

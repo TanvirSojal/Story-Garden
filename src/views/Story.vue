@@ -32,7 +32,7 @@
                         mode: 'UPDATE',
                       },
                     }"
-                    ><button>
+                    ><button class="tool-button">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -50,7 +50,12 @@
                   >
                 </div>
                 <div class="col-sm-6 pt-2">
-                  <button @click="handleDelete">
+                  <!-- This button will trigger delete confirmation modal -->
+                  <button
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop"
+                    class="tool-button"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -65,6 +70,57 @@
                     </svg>
                     <span style="padding-left:1rem">Delete</span>
                   </button>
+                </div>
+
+                <!-- Modal -->
+                <div
+                  class="modal fade"
+                  id="staticBackdrop"
+                  data-bs-backdrop="static"
+                  data-bs-keyboard="false"
+                  tabindex="-1"
+                  aria-labelledby="staticBackdropLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5
+                          class="modal-title"
+                          id="staticBackdropLabel"
+                          style="color:red"
+                        >
+                          Are you sure you want to delete this post?
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        {{ story.title }}
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-danger"
+                          data-bs-dismiss="modal"
+                          @click="handleDelete"
+                        >
+                          Yes, Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -170,7 +226,7 @@ h5 {
 }
 
 /* for update and delete toolbar */
-button {
+.tool-button {
   padding: 0.5rem 1rem;
   width: 100%;
   background: var(--color-white);
@@ -179,12 +235,12 @@ button {
   margin-right: 1rem;
 }
 
-button:hover {
+.tool-button:hover {
   color: var(--color-accent);
   border-color: var(--color-accent);
 }
 
-button:active {
+.tool-button:active {
   color: var(--color-black);
   border-color: var(--color-black);
 }
