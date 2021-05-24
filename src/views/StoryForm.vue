@@ -51,6 +51,15 @@
                 <button>{{ mode === "UPDATE" ? "Update" : "Publish" }}</button>
               </div>
             </div>
+            <div class="row pt-4" style="opacity:.6">
+              <div class="col-sm-12">
+                <ul>
+                  <li :style="criteria['story-title']">
+                    Story title maximum limit: 100 characters
+                  </li>
+                </ul>
+              </div>
+            </div>
             <div v-if="status.length > 0" class="row pt-5">
               <label id="status">{{ status }}</label>
             </div>
@@ -77,6 +86,9 @@ export default {
         id: "",
         title: "",
         body: "",
+      },
+      criteria: {
+        "story-title": "",
       },
       status: "",
       mode: "",
@@ -105,10 +117,21 @@ export default {
   methods: {
     handlePublish(e) {
       e.preventDefault();
+      this.status = "";
+      this.criteria = {
+        "story-title": "",
+      };
 
       if (!this.story.title || !this.story.body) {
         this.status = "Story title and body can not be empty!";
+        return;
       }
+
+      if (this.story.title.length > 100) {
+        this.criteria["story-title"] = "color:red;font-weight:bold";
+        return;
+      }
+
       this.mode === "UPDATE"
         ? this.handleUpdateStory()
         : this.handleCreateStory();
