@@ -22,7 +22,7 @@
         <div class="col-sm-4 info">
           <p class="written-by">Written By</p>
           <h5>{{ story.author }}</h5>
-          <p class="date">{{ story.date }}</p>
+          <p class="date">{{ formattedDate }}</p>
         </div>
       </div>
     </section>
@@ -30,9 +30,18 @@
 </template>
 
 <script>
+import dateFormatter from "../utils/dateFormatter";
 export default {
   name: "StoryCard",
   props: { story: Object },
+  computed: {
+    // * computed property used to format date from the story prop
+    // * because the data is already loaded in the parent prop
+    // * the function will not be called with null
+    formattedDate() {
+      return dateFormatter.toDayMonthYear(this.story.date);
+    },
+  },
 };
 </script>
 
