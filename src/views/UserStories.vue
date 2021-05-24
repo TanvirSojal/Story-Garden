@@ -33,6 +33,7 @@
 <script>
 import PostService from "../services/PostService";
 import StoryCard from "../components/StoryCard";
+import router from "../router";
 
 export default {
   name: "UserStories",
@@ -46,6 +47,10 @@ export default {
   },
   created() {
     const username = localStorage.getItem("storygarden-username");
+    if (!username) {
+      router.push("/404");
+      return;
+    }
     console.log("Fetching all stories by", username);
     PostService.findByUser(username).then(
       (data) => (this.stories = data.reverse())

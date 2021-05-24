@@ -86,6 +86,11 @@ export default {
     this.user.name = localStorage.getItem("storygarden-name");
     this.user.username = localStorage.getItem("storygarden-username");
 
+    if (!this.user.username) {
+      router.push("/404");
+      return;
+    }
+
     const route = useRoute();
     if (route.params.mode === "UPDATE") this.mode = "UPDATE";
     else {
