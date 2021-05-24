@@ -129,6 +129,12 @@ export default {
       status: "",
     };
   },
+  created() {
+    if (localStorage.getItem("storygarden-username")) {
+      router.push("/");
+      return;
+    }
+  },
   methods: {
     handleRegistration(e) {
       e.preventDefault();
