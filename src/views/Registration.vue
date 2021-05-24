@@ -69,7 +69,7 @@
                 <div class="col-sm-12">
                   <ul>
                     <li :style="criteria['name-length']">
-                      Name length must be between 4 - 20
+                      Name length must be between 4 - 50
                     </li>
                     <li :style="criteria['username-length']">
                       Username length must be between 4 - 20
@@ -188,7 +188,7 @@ export default {
         valid = false;
       }
 
-      if (name.length > 20) {
+      if (name.length > 50) {
         // this.status = "Name length must be at most 20!";
         this.highlightCriteria("name-length");
         valid = false;
