@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import dateFormatter from "../utils/dateFormatter";
+import DateFormatter from "../utils/DateFormatter";
 export default {
   name: "StoryCard",
   props: { story: Object },
@@ -39,7 +39,7 @@ export default {
     // * because the data is already loaded in the parent prop
     // * the function will not be called with null
     formattedDate() {
-      return dateFormatter.toDayMonthYear(this.story.date);
+      return DateFormatter.toDayMonthYear(this.story.date);
     },
   },
 };

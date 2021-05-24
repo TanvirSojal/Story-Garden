@@ -8,6 +8,7 @@
           <div class="row">
             <div class="col-sm-8">
               <h2>{{ story.title }}</h2>
+
               <p class="story">
                 {{ story.body }}
               </p>
@@ -134,7 +135,10 @@
 <script>
 import PostService from "../services/PostService";
 import router from "../router";
-import dateFormatter from "../utils/dateFormatter";
+
+// utility functions
+import DateFormatter from "../utils/DateFormatter";
+
 export default {
   name: "Story",
   data() {
@@ -149,7 +153,10 @@ export default {
     // * date is formatted while loading data
     // * immutability standard maintained
     PostService.findById(this.$route.params.id).then((data) => {
-      this.story = { ...data, date: dateFormatter.toDayMonthYear(data.date) };
+      this.story = {
+        ...data,
+        date: DateFormatter.toDayMonthYear(data.date),
+      };
     });
   },
   methods: {
@@ -213,6 +220,8 @@ p {
 h5,
 p {
   font-family: var(--font-text);
+  /* to render line breaks */
+  white-space: pre-wrap;
 }
 
 h5 {

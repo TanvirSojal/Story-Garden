@@ -15,7 +15,7 @@ const monthLookup = {
 
 // * function to formate date as 'day (number) month (string), Year (number)'
 // * example: 24 May, 2021
-const dateFormatter = {
+const DateFormatter = {
   toDayMonthYear: (date) => {
     date = date.split("T")[0];
     // array [year, month, date]
@@ -25,4 +25,4 @@ const dateFormatter = {
   },
 };
 
-export default dateFormatter;
+export default DateFormatter;
