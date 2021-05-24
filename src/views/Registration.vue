@@ -1,5 +1,10 @@
 <template>
-  <div class="container-fluid">
+  <!-- Show registration success dialogue if registration is complete -->
+  <div v-if="registrationComplete === true">
+    <RegistrationSuccess />
+  </div>
+
+  <div v-else class="container-fluid">
     <div class="row">
       <div class="col-sm-4 offset-sm-4">
         <section>
@@ -75,8 +80,7 @@
                       Username length must be between 4 - 20
                     </li>
                     <li :style="criteria['name-username-char']">
-                      Name and username must contain only alphanumeric
-                      characters
+                      Username must contain only alphanumeric characters
                     </li>
                     <li :style="criteria['password-length']">
                       Password length must be between 8 - 40
@@ -108,8 +112,13 @@
 import AuthService from "../services/AuthService";
 import router from "../router";
 
+import RegistrationSuccess from "../components/RegistrationSuccess";
+
 export default {
   name: "Registration",
+  components: {
+    RegistrationSuccess,
+  },
   data() {
     return {
       user: {
@@ -122,11 +131,12 @@ export default {
       criteria: {
         "name-length": "",
         "username-length": "",
-        "name-username-char": "",
+        "username-char": "",
         "password-length": "",
         "password-char": "",
       },
       status: "",
+      registrationComplete: false,
     };
   },
   created() {
@@ -149,7 +159,7 @@ export default {
         password: this.user.password,
       }).then((data) =>
         data
-          ? router.push("/registration-success")
+          ? (this.registrationComplete = true)
           : (this.status = "User Already Exists!")
       );
     },
@@ -199,22 +209,6 @@ export default {
         this.highlightCriteria("name-length");
         valid = false;
       }
-
-      for (let i = 0; i < name.length; i++) {
-        const ch = name[i];
-        if (
-          !(
-            (ch >= "0" && ch <= "9") ||
-            (ch >= "a" && ch <= "z") ||
-            (ch >= "A" && ch <= "Z")
-          )
-        ) {
-          // this.status = "Name can not contain special characters!";
-          this.highlightCriteria("name-username-char");
-          valid = false;
-          break;
-        }
-      }
       return valid;
     },
 
@@ -236,12 +230,6 @@ export default {
 
       for (let i = 0; i < username.length; i++) {
         const ch = username[i];
-        console.log(
-          ch,
-          (ch >= "0" && ch <= "9") ||
-            (ch >= "a" && ch <= "z") ||
-            (ch >= "A" && ch <= "Z")
-        );
         if (
           !(
             (ch >= "0" && ch <= "9") ||
@@ -250,7 +238,7 @@ export default {
           )
         ) {
           // this.status = "Username can not contain special characters!";
-          this.highlightCriteria("name-username-char");
+          this.highlightCriteria("username-char");
           valid = false;
           break;
         }
