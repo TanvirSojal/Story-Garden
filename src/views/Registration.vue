@@ -67,11 +67,25 @@
             <div class="pt-2">
               <div class="row pt-2 pb-2" style="opacity:.6">
                 <div class="col-sm-12">
-                  <p>Password length must be between 8 - 40</p>
-                  <p>
-                    Password must contain at least one numerical and one
-                    alphabetic character
-                  </p>
+                  <ul>
+                    <li :style="criteria['name-length']">
+                      Name length must be between 4 - 20
+                    </li>
+                    <li :style="criteria['username-length']">
+                      Username length must be between 4 - 20
+                    </li>
+                    <li :style="criteria['name-username-char']">
+                      Name and username must contain only alphanumeric
+                      characters
+                    </li>
+                    <li :style="criteria['password-length']">
+                      Password length must be between 8 - 40
+                    </li>
+                    <li :style="criteria['password-char']">
+                      Password must contain at least one numerical and one
+                      alphabetic character
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -104,6 +118,14 @@ export default {
         password: "",
         confirmedPassword: "",
       },
+      // * used to highlight the unmet criterias
+      criteria: {
+        "name-length": "",
+        "username-length": "",
+        "name-username-char": "",
+        "password-length": "",
+        "password-char": "",
+      },
       status: "",
     };
   },
@@ -111,8 +133,7 @@ export default {
     handleRegistration(e) {
       e.preventDefault();
 
-      // check all password validation
-      if (!this.validatePassword()) {
+      if (!this.validateAll()) {
         return;
       }
 
@@ -127,25 +148,132 @@ export default {
       );
     },
 
+    // * handles name, username and password validation
+    validateAll() {
+      this.clearCriteria();
+      this.status = "";
+      let valid = true;
+      // check all password validation
+      if (!this.validatePassword()) valid = false;
+
+      // check username validation
+      if (!this.validateUsername()) valid = false;
+
+      // check name validation
+      if (!this.validateName()) valid = false;
+
+      return valid;
+    },
+
+    highlightCriteria(id) {
+      this.criteria[id] = "color:red; font-weight:bold;";
+    },
+
+    clearCriteria() {
+      this.criteria = {
+        "name-length": "",
+        "username-length": "",
+        "name-username-char": "",
+        "password-length": "",
+        "password-char": "",
+      };
+    },
+
+    validateName() {
+      const name = this.user.name;
+      let valid = true;
+      if (name.length < 4) {
+        // this.status = "Name length must be at least 4!";
+        this.highlightCriteria("name-length");
+        valid = false;
+      }
+
+      if (name.length > 20) {
+        // this.status = "Name length must be at most 20!";
+        this.highlightCriteria("name-length");
+        valid = false;
+      }
+
+      for (let i = 0; i < name.length; i++) {
+        const ch = name[i];
+        if (
+          !(
+            (ch >= "0" && ch <= "9") ||
+            (ch >= "a" && ch <= "z") ||
+            (ch >= "A" && ch <= "Z")
+          )
+        ) {
+          // this.status = "Name can not contain special characters!";
+          this.highlightCriteria("name-username-char");
+          valid = false;
+          break;
+        }
+      }
+      return valid;
+    },
+
+    validateUsername() {
+      const username = this.user.username;
+      let valid = true;
+
+      if (username.length < 4) {
+        // this.status = "Username length must be at least 4!";
+        this.highlightCriteria("username-length");
+        valid = false;
+      }
+
+      if (username.length > 20) {
+        // this.status = "Username length must be at most 20!";
+        this.highlightCriteria("username-length");
+        valid = false;
+      }
+
+      for (let i = 0; i < username.length; i++) {
+        const ch = username[i];
+        console.log(
+          ch,
+          (ch >= "0" && ch <= "9") ||
+            (ch >= "a" && ch <= "z") ||
+            (ch >= "A" && ch <= "Z")
+        );
+        if (
+          !(
+            (ch >= "0" && ch <= "9") ||
+            (ch >= "a" && ch <= "z") ||
+            (ch >= "A" && ch <= "Z")
+          )
+        ) {
+          // this.status = "Username can not contain special characters!";
+          this.highlightCriteria("name-username-char");
+          valid = false;
+          break;
+        }
+      }
+      return valid;
+    },
+
     // returns true/false based on validation result
     validatePassword() {
       // check if the passwords match
+      let valid = true;
       if (this.user.password != this.user.confirmedPassword) {
-        this.status = "Passwords did not match!";
-        return false;
+        // this.status = "Passwords did not match!";
+        valid = false;
       }
 
       const password = this.user.password;
 
       // password length should be [8-40]
       if (password.length < 8) {
-        this.status = "Password length must be at least 8!";
-        return false;
+        // this.status = "Password length must be at least 8!";
+        this.highlightCriteria("password-length");
+        valid = false;
       }
 
       if (password.length > 40) {
-        this.status = "Password length must be at most 40!";
-        return false;
+        // this.status = "Password length must be at most 40!";
+        this.highlightCriteria("password-length");
+        valid = false;
       }
 
       // password must contain at least 1 number and 1 alphabetic character
@@ -159,11 +287,13 @@ export default {
         )
           char = true;
       }
+
       if (!number || !char) {
-        this.status = "Password must contain at least 1 number and 1 letter!";
-        return false;
+        // this.status = "Password must contain at least 1 number and 1 letter!";
+        this.highlightCriteria("password-char");
+        valid = false;
       }
-      return true;
+      return valid;
     },
   },
 };
@@ -174,6 +304,10 @@ section {
   margin-top: 3rem;
   padding: 2rem;
   background: var(--color-white);
+}
+
+li {
+  margin-top: 0.3rem;
 }
 
 h3 {
