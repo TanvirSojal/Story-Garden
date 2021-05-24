@@ -7,6 +7,7 @@ import Login from "../views/Login";
 import Story from "../views/Story";
 import UserStories from "../views/UserStories";
 import StoryForm from "../views/StoryForm";
+import NotFound from "../views/NotFound";
 
 const routes = [
   {
@@ -48,6 +49,20 @@ const routes = [
     path: "/update",
     name: "UpdateStory",
     component: StoryForm,
+  },
+  {
+    // route for 404 page
+    // defined seperately so router.push can refer to it
+    path: "/404",
+    name: "NotFound",
+    component: NotFound,
+  },
+  {
+    // * fallback route for any unmatched route
+    // path: "/:catchAll(.*)",
+    path: "/:catchAll(.*)",
+    name: "NotFound",
+    component: NotFound,
   },
 ];
 

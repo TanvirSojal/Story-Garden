@@ -152,11 +152,15 @@ export default {
 
     // * date is formatted while loading data
     // * immutability standard maintained
-    PostService.findById(this.$route.params.id).then((data) => {
-      this.story = {
-        ...data,
-        date: DateFormatter.toDayMonthYear(data.date),
-      };
+    PostService.findById(this.$route.params.id).then((story) => {
+      if (story) {
+        this.story = {
+          ...story,
+          date: DateFormatter.toDayMonthYear(story.date),
+        };
+      } else {
+        router.push("/404");
+      }
     });
   },
   methods: {
