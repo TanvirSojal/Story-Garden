@@ -234,7 +234,8 @@ export default {
           !(
             (ch >= "0" && ch <= "9") ||
             (ch >= "a" && ch <= "z") ||
-            (ch >= "A" && ch <= "Z")
+            (ch >= "A" && ch <= "Z") ||
+            ch === "_"
           )
         ) {
           // this.status = "Username can not contain special characters!";
@@ -251,7 +252,7 @@ export default {
       // check if the passwords match
       let valid = true;
       if (this.user.password != this.user.confirmedPassword) {
-        // this.status = "Passwords did not match!";
+        this.status = "Passwords did not match!";
         valid = false;
       }
 
