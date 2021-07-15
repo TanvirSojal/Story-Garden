@@ -10,14 +10,14 @@
               <h2>{{ story.title }}</h2>
 
               <p class="story">
-                {{ story.body }}
+                {{ story.content }}
               </p>
             </div>
             <div class="col-sm-4 info">
               <div class="row">
                 <div class="col-sm-12">
                   <p class="written-by">Written By</p>
-                  <h5 class="author">{{ story.author }}</h5>
+                  <h5 class="author">{{ story.authorName }}</h5>
                   <p class="date">{{ story.date }}</p>
                 </div>
               </div>
@@ -28,8 +28,8 @@
                       name: 'UpdateStory',
                       params: {
                         title: story.title,
-                        body: story.body,
-                        id: story._id,
+                        body: story.content,
+                        id: story.id,
                         mode: 'UPDATE',
                       },
                     }"
@@ -156,7 +156,7 @@ export default {
       if (story) {
         this.story = {
           ...story,
-          date: DateFormatter.toDayMonthYear(story.date),
+          date: DateFormatter.toDayMonthYear(story.createdAt),
         };
       } else {
         router.push("/404");
@@ -165,7 +165,7 @@ export default {
   },
   methods: {
     handleDelete() {
-      PostService.deleteById(this.story._id).then((response) => {
+      PostService.deleteById(this.story.id).then((response) => {
         if (response) {
           router.push("/");
         }

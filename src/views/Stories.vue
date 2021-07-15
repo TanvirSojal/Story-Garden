@@ -25,7 +25,10 @@ export default {
     StoryCard,
   },
   created() {
-    PostService.findAll().then((data) => (this.stories = data.reverse()));
+    PostService.findAll().then((data) => {
+      console.log(data);
+      this.stories = data.items.reverse();
+    });
   },
 };
 </script>

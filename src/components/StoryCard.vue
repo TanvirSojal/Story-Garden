@@ -2,7 +2,7 @@
   <router-link
     :to="{
       name: 'Story',
-      params: { id: story._id },
+      params: { id: story.id },
     }"
   >
     <section>
@@ -12,16 +12,16 @@
           <h2>{{ story.title }}</h2>
           <p class="story">
             {{
-              story.body.length > 200
-                ? story.body.slice(0, 200) + "..."
-                : story.body
+              story.content.length > 200
+                ? story.content.slice(0, 200) + "..."
+                : story.content
             }}
-            <span>{{ story.body.length > 200 ? "Read More" : "" }}</span>
+            <span>{{ story.content.length > 200 ? "Read More" : "" }}</span>
           </p>
         </div>
         <div class="col-sm-4 info">
           <p class="written-by">Written By</p>
-          <h5>{{ story.author }}</h5>
+          <h5>{{ story.authorName }}</h5>
           <p class="date">{{ formattedDate }}</p>
         </div>
       </div>
@@ -39,7 +39,7 @@ export default {
     // * because the data is already loaded in the parent prop
     // * the function will not be called with null
     formattedDate() {
-      return DateFormatter.toDayMonthYear(this.story.date);
+      return DateFormatter.toDayMonthYear(this.story.createdAt);
     },
   },
 };
