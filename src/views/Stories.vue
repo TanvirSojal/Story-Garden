@@ -37,6 +37,7 @@
         <Pagination
           v-bind:buttonCount="totalPageCount"
           v-bind:currentPage="pageDisplaying"
+          v-bind:show="5"
           @changePage="handlePageChange"
         />
       </div>

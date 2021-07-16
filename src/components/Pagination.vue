@@ -9,7 +9,7 @@
     >
       ᐊ
     </button>
-    <div v-for="index in buttonCount" :key="index">
+    <div v-for="index in getButtonList" :key="index">
       <button :disabled="index == currentPage" @click="handlePageChange(index)">
         {{ index }}
       </button>
@@ -39,10 +39,33 @@ export default {
     currentPage: {
       type: Number,
     },
+    show: {
+      type: Number,
+    },
   },
   computed: {
     isCurrentPage(index) {
       return index == this.currentPage;
+    },
+    getButtonList() {
+      // return which button range will be shown
+      let buttons = [];
+      let show = Math.min(this.show, this.buttonCount);
+      let block = Math.floor(show / 2);
+      let start = this.currentPage - block;
+      let end = this.currentPage + block;
+      console.log(this.currentPage);
+      if (start <= 0) {
+        end += Math.abs(start) + 1;
+        start = 1;
+      }
+      end = Math.min(end, this.buttonCount);
+
+      console.log("current", this.currentPage);
+      console.log("start", start, "end", end);
+      console.log("block", block);
+      for (let i = start; i <= end; i++) buttons.push(i);
+      return buttons;
     },
   },
   methods: {
