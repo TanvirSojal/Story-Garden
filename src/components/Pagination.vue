@@ -1,10 +1,17 @@
 <template>
   <div class="pagination">
-    <button>First</button>
+    <button :disabled="index == 1" @click="handlePageChange(1)">First</button>
     <div v-for="index in buttonCount" :key="index">
-      <button :disabled="index == currentPage">{{ index }}</button>
+      <button :disabled="index == currentPage" @click="handlePageChange(index)">
+        {{ index }}
+      </button>
     </div>
-    <button>Last</button>
+    <button
+      :disabled="index == buttonCount"
+      @click="handlePageChange(buttonCount)"
+    >
+      Last
+    </button>
   </div>
 </template>
 
@@ -22,6 +29,11 @@ export default {
   computed: {
     isCurrentPage(index) {
       return index == this.currentPage;
+    },
+  },
+  methods: {
+    handlePageChange(page) {
+      this.$emit("changePage", page);
     },
   },
 };

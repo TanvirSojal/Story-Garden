@@ -37,6 +37,7 @@
         <Pagination
           v-bind:buttonCount="totalPageCount"
           v-bind:currentPage="pageIndex"
+          @changePage="handlePageChange"
         />
       </div>
     </div>
@@ -80,6 +81,21 @@ export default {
         this.pageSize,
         this.pageIndex
       )
+        .then((data) => {
+          this.stories = data.items;
+          this.totalPageCount = data.totalPageCount;
+          this.pageIndex = data.pageIndex;
+          console.log("Currently Viewing " + this.pageIndex);
+        })
+        .catch((err) => {
+          this.stories = [];
+          console.log(err);
+        });
+    },
+
+    handlePageChange(page) {
+      console.log("parent ", page);
+      PostService.findAllByQueryFilter(this.searchTerm, this.pageSize, page)
         .then((data) => {
           this.stories = data.items;
           this.totalPageCount = data.totalPageCount;
