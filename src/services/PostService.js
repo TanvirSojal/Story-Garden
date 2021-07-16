@@ -29,10 +29,12 @@ const PostService = {
   },
   createPost: async (request) => {
     const token = localStorage.getItem("storygarden-token");
+    console.log("token", token);
+    console.log(request);
     return axios
       .post(uri, request, {
         headers: {
-          "auth-token": token,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => response.data)
