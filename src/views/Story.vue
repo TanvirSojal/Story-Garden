@@ -21,14 +21,14 @@
                   <p class="date">{{ story.date }}</p>
                 </div>
               </div>
-              <div v-if="username === story.username" class="row mt-4">
+              <div v-if="username === story.authorUsername" class="row mt-4">
                 <div class="col-lg-6 pt-2">
                   <router-link
                     :to="{
                       name: 'UpdateStory',
                       params: {
                         title: story.title,
-                        body: story.content,
+                        content: story.content,
                         id: story.id,
                         mode: 'UPDATE',
                       },

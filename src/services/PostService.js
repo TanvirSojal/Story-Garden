@@ -45,10 +45,11 @@ const PostService = {
   },
   updateById: async (id, post) => {
     const token = localStorage.getItem("storygarden-token");
+    console.log(post);
     return axios
       .put(uri + "/" + id, post, {
         headers: {
-          "auth-token": token,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => response.data)
@@ -62,7 +63,7 @@ const PostService = {
     return axios
       .delete(uri + "/" + id, {
         headers: {
-          "auth-token": token,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {

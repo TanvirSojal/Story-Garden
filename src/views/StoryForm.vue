@@ -155,7 +155,7 @@ export default {
       console.log("update!");
       PostService.updateById(this.story.id, {
         title: this.story.title,
-        body: this.story.content,
+        content: this.story.content,
       }).then((data) => {
         if (data) {
           // console.log(response);
