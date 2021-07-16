@@ -34,7 +34,10 @@
     </div>
     <div class="row">
       <div class="col-sm-8 offset-sm-2">
-        <Pagination />
+        <Pagination
+          v-bind:buttonCount="totalPageCount"
+          v-bind:currentPage="pageIndex"
+        />
       </div>
     </div>
   </div>
@@ -53,6 +56,7 @@ export default {
       searchTerm: "",
       pageSize: process.env.VUE_APP_DEFAULT_PAGE_SIZE,
       pageIndex: parseInt(process.env.VUE_APP_DEFAULT_PAGE_INDEX),
+      totalPageCount: 1,
     };
   },
   components: {
@@ -63,6 +67,7 @@ export default {
     PostService.findAll().then((data) => {
       //console.log(data);
       this.stories = data.items;
+      this.totalPageCount = data.totalPageCount;
     });
   },
   methods: {
@@ -77,9 +82,12 @@ export default {
       )
         .then((data) => {
           this.stories = data.items;
-          console.log(data);
+          this.totalPageCount = data.totalPageCount;
+          this.pageIndex = data.pageIndex;
+          console.log("Currently Viewing " + this.pageIndex);
         })
         .catch((err) => {
+          this.stories = [];
           console.log(err);
         });
     },
