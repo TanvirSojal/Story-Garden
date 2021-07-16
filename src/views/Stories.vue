@@ -36,7 +36,7 @@
       <div class="col-sm-8 offset-sm-2">
         <Pagination
           v-bind:buttonCount="totalPageCount"
-          v-bind:currentPage="pageIndex"
+          v-bind:currentPage="pageDisplaying"
           @changePage="handlePageChange"
         />
       </div>
@@ -57,6 +57,7 @@ export default {
       searchTerm: "",
       pageSize: process.env.VUE_APP_DEFAULT_PAGE_SIZE,
       pageIndex: parseInt(process.env.VUE_APP_DEFAULT_PAGE_INDEX),
+      pageDisplaying: parseInt(process.env.VUE_APP_DEFAULT_PAGE_INDEX),
       totalPageCount: 1,
     };
   },
@@ -84,7 +85,7 @@ export default {
         .then((data) => {
           this.stories = data.items;
           this.totalPageCount = data.totalPageCount;
-          this.pageIndex = data.pageIndex;
+          this.pageDisplaying = data.pageIndex;
           console.log("Currently Viewing " + this.pageIndex);
         })
         .catch((err) => {
@@ -99,7 +100,7 @@ export default {
         .then((data) => {
           this.stories = data.items;
           this.totalPageCount = data.totalPageCount;
-          this.pageIndex = data.pageIndex;
+          this.pageDisplaying = data.pageIndex;
           console.log("Currently Viewing " + this.pageIndex);
         })
         .catch((err) => {
