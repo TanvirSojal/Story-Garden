@@ -1,16 +1,31 @@
 <template>
   <div class="container-fluid">
-    <div class="row search-bar">
-      <div class="col-sm-6 offset-sm-2">
+    <form class="row search-bar" @submit="handleSearch">
+      <div class="col-sm-4 offset-sm-2">
+        <label>Search posts</label>
         <input
           type="text"
-          placeholder="Search post title, content, author ..."
+          placeholder="🔍 Search post title, content, author ..."
+          v-model="searchTerm"
         />
       </div>
       <div class="col-sm-2">
-        <button>Search</button>
+        <label>Display per page</label>
+        <select>
+          <option v-for="opt in 9" :key="opt"
+            >{{ opt }} post(s) per page</option
+          >
+          <option :key="10" selected>10 post(s) per page</option>
+        </select>
       </div>
-    </div>
+      <div class="col-sm-1">
+        <label>View page index</label>
+        <input type="number" v-model="pageIndex" placeholder="Page Index" />
+      </div>
+      <div class="col-sm-1">
+        <button>Filter</button>
+      </div>
+    </form>
     <div v-for="story in stories" :key="story._id">
       <div class="row">
         <div class="col-sm-8 offset-sm-2">
@@ -37,8 +52,8 @@ export default {
     return {
       stories: Array,
       searchTerm: "",
-      pageSize: 0,
-      pageIndex: 0,
+      pageSize: process.env.VUE_APP_DEFAULT_PAGE_SIZE,
+      pageIndex: process.env.VUE_APP_DEFAULT_PAGE_INDEX,
     };
   },
   components: {
@@ -47,9 +62,28 @@ export default {
   },
   created() {
     PostService.findAll().then((data) => {
-      console.log(data);
+      //console.log(data);
       this.stories = data.items.reverse();
     });
+  },
+  methods: {
+    async handleSearch(e) {
+      e.preventDefault();
+
+      console.log("Searching for: ", this.searchTerm);
+      PostService.findAllByQueryFilter(
+        this.searchTerm,
+        this.pageSize,
+        this.pageIndex
+      )
+        .then((data) => {
+          this.stories = data.items.reverse();
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
 </script>
@@ -83,6 +117,7 @@ button {
   font-weight: bold;
   border: 2px solid var(--color-accent);
   width: 100%;
+  margin-top: 1.6em;
 }
 
 button:hover {
@@ -93,6 +128,19 @@ button:hover {
 
 button:active {
   background: var(--color-white);
+  color: var(--color-accent);
+}
+
+select {
+  width: 100%;
+  height: 3em;
+  padding: 10px;
+  color: var(--color-black);
+  font-weight: bold;
+  border: none;
+}
+
+label {
   color: var(--color-accent);
 }
 </style>

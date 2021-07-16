@@ -10,6 +10,18 @@ const PostService = {
       .then((response) => response.data)
       .catch((err) => console.log("Failed to fetch posts! ", err.message));
   },
+  findAllByQueryFilter: async (searchTerm, pageSize, pageIndex) => {
+    return axios
+      .get(uri, {
+        params: {
+          searchTerm: searchTerm,
+          pageSize: pageSize,
+          pageIndex: pageIndex,
+        },
+      })
+      .then((response) => response.data)
+      .catch((err) => console.log("Failed to fetch posts! ", err.message));
+  },
   // ? removed async for testing promise based operations
   findById: async (id) => {
     return axios
