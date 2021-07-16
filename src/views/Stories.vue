@@ -11,11 +11,10 @@
       </div>
       <div class="col-sm-2">
         <label>Display per page</label>
-        <select>
-          <option v-for="opt in 9" :key="opt"
+        <select v-model="pageSize">
+          <option v-for="opt in 10" :key="opt" :value="opt"
             >{{ opt }} post(s) per page</option
           >
-          <option :key="10" selected>10 post(s) per page</option>
         </select>
       </div>
       <div class="col-sm-1">
@@ -53,7 +52,7 @@ export default {
       stories: Array,
       searchTerm: "",
       pageSize: process.env.VUE_APP_DEFAULT_PAGE_SIZE,
-      pageIndex: process.env.VUE_APP_DEFAULT_PAGE_INDEX,
+      pageIndex: parseInt(process.env.VUE_APP_DEFAULT_PAGE_INDEX),
     };
   },
   components: {
@@ -63,7 +62,7 @@ export default {
   created() {
     PostService.findAll().then((data) => {
       //console.log(data);
-      this.stories = data.items.reverse();
+      this.stories = data.items;
     });
   },
   methods: {
@@ -77,7 +76,7 @@ export default {
         this.pageIndex
       )
         .then((data) => {
-          this.stories = data.items.reverse();
+          this.stories = data.items;
           console.log(data);
         })
         .catch((err) => {
