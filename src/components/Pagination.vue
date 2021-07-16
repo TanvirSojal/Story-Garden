@@ -1,13 +1,27 @@
 <template>
   <div class="pagination">
-    <button :disabled="index == 1" @click="handlePageChange(1)">First</button>
+    <button :disabled="currentPage == 1" @click="handlePageChange(1)">
+      First
+    </button>
+    <button
+      :disabled="currentPage == 1"
+      @click="handlePageChange(currentPage - 1)"
+    >
+      ᐊ
+    </button>
     <div v-for="index in buttonCount" :key="index">
       <button :disabled="index == currentPage" @click="handlePageChange(index)">
         {{ index }}
       </button>
     </div>
     <button
-      :disabled="index == buttonCount"
+      :disabled="currentPage == buttonCount"
+      @click="handlePageChange(currentPage + 1)"
+    >
+      ᐅ
+    </button>
+    <button
+      :disabled="currentPage == buttonCount"
       @click="handlePageChange(buttonCount)"
     >
       Last
@@ -33,6 +47,10 @@ export default {
   },
   methods: {
     handlePageChange(page) {
+      if (page < 1 || page > this.buttonCount) {
+        console.log("Out of bound");
+        return;
+      }
       this.$emit("changePage", page);
     },
   },
