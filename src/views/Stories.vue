@@ -76,7 +76,7 @@ input:active {
 }
 
 button {
-  padding: 0.8rem 2rem;
+  padding: 0.7rem 2rem;
   color: var(--color-white);
   background: var(--color-accent);
   border: none;
