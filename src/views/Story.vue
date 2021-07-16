@@ -18,7 +18,8 @@
                 <div class="col-sm-12">
                   <p class="written-by">Written By</p>
                   <h5 class="author">{{ story.authorName }}</h5>
-                  <p class="date">{{ story.date }}</p>
+                  <p class="date">Created: {{ story.date }}</p>
+                  <p class="date">Last Updated: {{ story.updateDate }}</p>
                 </div>
               </div>
               <div v-if="username === story.authorUsername" class="row mt-4">
@@ -157,6 +158,7 @@ export default {
         this.story = {
           ...story,
           date: DateFormatter.toDayMonthYear(story.createdAt),
+          updateDate: DateFormatter.toDayMonthYear(story.lastUpdatedAt),
         };
       } else {
         router.push("/404");
@@ -212,6 +214,7 @@ section:active {
 
 .date {
   color: var(--color-dark);
+  margin-bottom: 0.5em;
 }
 
 h2,
