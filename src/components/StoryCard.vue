@@ -44,11 +44,16 @@
                   params: {
                     title: story.title,
                     id: story.id,
+                    authorName: story.authorName,
+                    createdAt: story.createdAt,
+                    lastUpdatedAt: story.lastUpdatedAt,
                   },
                 }"
               >
-                <button>❌ Delete</button></router-link
-              >
+                <button>
+                  ❌ Delete
+                </button>
+              </router-link>
             </div>
             <div>
               <select @click.prevent v-model="exportType">
@@ -83,6 +88,7 @@ export default {
       username: undefined,
       role: undefined,
       exportType: "json",
+      postToDelete: "",
     };
   },
   created() {
@@ -97,18 +103,25 @@ export default {
       return DateFormatter.toDayMonthYear(this.story.createdAt);
     },
     checkModificationAccess() {
-      console.log(this.role);
+      // console.log(this.role);
       return this.role == 32 || this.story.authorUsername == this.username;
     },
   },
   methods: {
     handleExport() {
-      console.log("Exporting", this.story.title, "as:", this.exportType);
+      // console.log("Exporting", this.story.title, "as:", this.exportType);
       PostService.DownloadById(
         this.story.id,
         this.story.title,
         this.exportType
       );
+    },
+    deleteButtonClick() {
+      this.postToDelete = this.story.title;
+      console.log(this.story.title, this.postToDelete);
+    },
+    handleDelete() {
+      console.log("Deleting", this.postToDelete);
     },
   },
 };

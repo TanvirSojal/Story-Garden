@@ -132,6 +132,8 @@ const PostService = {
   },
   deleteById: async (id) => {
     const token = localStorage.getItem("storygarden-token");
+    // console.log(token);
+    // console.log(uri + "/" + id);
     return axios
       .delete(uri + "/" + id, {
         headers: {
