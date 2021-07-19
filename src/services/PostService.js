@@ -42,7 +42,7 @@ const PostService = {
         return response.data;
       })
       .catch((err) =>
-        console.log("Failed to fetch posts by user! ", err.message)
+        console.log("Failed to fetch posts by user!", err.message)
       );
   },
   // ? removed async for testing promise based operations
@@ -50,8 +50,56 @@ const PostService = {
     return axios
       .get(uri + "/" + id)
       .then((response) => response.data)
-      .catch((err) => console.log("Failed to fetch post! ", err.message));
+      .catch((err) => console.log("Failed to fetch post!", err.message));
   },
+
+  DownloadById: async (id, title, type) => {
+    let downloadType;
+    switch (type) {
+      case "csv":
+        downloadType = "text/csv";
+        break;
+      case "xml":
+        downloadType = "application/xml";
+        break;
+      case "html":
+        downloadType = "text/html";
+        break;
+      case "plain":
+        downloadType = "text/plain";
+        break;
+      default:
+        downloadType = "application/json";
+        break;
+    }
+
+    return axios
+      .get(uri + "/" + id, {
+        responseType: "blob",
+        headers: {
+          Accept: downloadType,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        const fileURL = window.URL.createObjectURL(
+          new Blob([response.data], {
+            type: downloadType,
+          })
+        );
+        const fileLink = document.createElement("a");
+
+        fileLink.href = fileURL;
+        const filename = title + "." + type;
+        fileLink.setAttribute("download", filename);
+        document.body.appendChild(fileLink);
+
+        fileLink.click();
+        document.body.removeChild(fileLink);
+      })
+      .catch((err) => console.log("Failed to download post!", err.message));
+  },
+
   findByUser: async (username) => {
     return axios
       .get(uri)

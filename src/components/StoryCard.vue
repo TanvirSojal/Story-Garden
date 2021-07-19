@@ -51,7 +51,7 @@
               >
             </div>
             <div>
-              <select @click.prevent :value="exportType">
+              <select @click.prevent v-model="exportType">
                 <option value="json">JSON</option>
                 <option value="csv">CSV</option>
                 <option value="xml">XML</option>
@@ -74,6 +74,7 @@
 
 <script>
 import DateFormatter from "../utils/DateFormatter";
+import PostService from "../services/PostService";
 export default {
   name: "StoryCard",
   props: { story: Object },
@@ -103,6 +104,11 @@ export default {
   methods: {
     handleExport() {
       console.log("Exporting", this.story.title, "as:", this.exportType);
+      PostService.DownloadById(
+        this.story.id,
+        this.story.title,
+        this.exportType
+      );
     },
   },
 };
