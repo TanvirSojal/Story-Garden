@@ -38,9 +38,9 @@
               >
                 <button>✍️ Edit</button></router-link
               >
-              <button>❌ Delete</button>
+              <button @click.prevent>❌ Delete</button>
             </div>
-            <button>💾 Export</button>
+            <button @click.prevent>💾 Export</button>
           </div>
         </div>
       </div>
