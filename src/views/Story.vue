@@ -22,7 +22,7 @@
                   <p class="date">Last Updated: {{ story.updateDate }}</p>
                 </div>
               </div>
-              <div v-if="username === story.authorUsername" class="row mt-4">
+              <div v-if="checkModificationAccess" class="row mt-4">
                 <div class="col-lg-6 pt-2">
                   <router-link
                     :to="{
@@ -177,9 +177,10 @@ export default {
     },
   },
   computed: {
-    // checkModificationAccess() {
-    //   return this.username === story.authorUsername || this.role == 32;
-    // },
+    checkModificationAccess() {
+      console.log(this.role);
+      return this.role == 32 || this.story.authorUsername == this.username;
+    },
   },
 };
 </script>
