@@ -25,6 +25,7 @@ const PostService = {
 
   findAllByUserPaginated: async (searchTerm, pageSize, pageIndex) => {
     const token = localStorage.getItem("storygarden-token");
+    // console.log(token);
     return axios
       .get(uri + "/user", {
         headers: {

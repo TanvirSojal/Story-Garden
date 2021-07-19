@@ -1,45 +1,65 @@
 <template>
   <div class="container-fluid">
-    <form class="row search-bar" @submit="handleSearch">
-      <div class="col-sm-4 offset-sm-2">
-        <label>Search posts</label>
-        <input
-          type="text"
-          placeholder="🔍 Search post title, content, author ..."
-          v-model="searchTerm"
-        />
+    <div v-if="totalPageCount > 0">
+      <form class="row search-bar" @submit="handleSearch">
+        <div class="col-sm-4 offset-sm-2">
+          <label>Search posts</label>
+          <input
+            type="text"
+            placeholder="🔍 Search post title, content, author ..."
+            v-model="searchTerm"
+          />
+        </div>
+        <div class="col-sm-2">
+          <label>Display per page</label>
+          <select v-model="pageSize">
+            <option v-for="opt in 10" :key="opt" :value="opt"
+              >{{ opt }} post(s) per page</option
+            >
+          </select>
+        </div>
+        <div class="col-sm-1">
+          <label>View page index</label>
+          <input type="number" v-model="pageIndex" placeholder="Page Index" />
+        </div>
+        <div class="col-sm-1">
+          <button>Filter</button>
+        </div>
+      </form>
+      <div v-for="story in stories" :key="story.id">
+        <div class="row">
+          <div class="col-sm-8 offset-sm-2">
+            <StoryCard :story="story" />
+          </div>
+        </div>
       </div>
-      <div class="col-sm-2">
-        <label>Display per page</label>
-        <select v-model="pageSize">
-          <option v-for="opt in 10" :key="opt" :value="opt"
-            >{{ opt }} post(s) per page</option
-          >
-        </select>
-      </div>
-      <div class="col-sm-1">
-        <label>View page index</label>
-        <input type="number" v-model="pageIndex" placeholder="Page Index" />
-      </div>
-      <div class="col-sm-1">
-        <button>Filter</button>
-      </div>
-    </form>
-    <div v-for="story in stories" :key="story.id">
       <div class="row">
         <div class="col-sm-8 offset-sm-2">
-          <StoryCard :story="story" />
+          <Pagination
+            v-bind:buttonCount="totalPageCount"
+            v-bind:currentPage="pageDisplaying"
+            v-bind:show="7"
+            @changePage="handlePageChange"
+          />
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-sm-8 offset-sm-2">
-        <Pagination
-          v-bind:buttonCount="totalPageCount"
-          v-bind:currentPage="pageDisplaying"
-          v-bind:show="7"
-          @changePage="handlePageChange"
-        />
+    <div v-else>
+      <div class="row" style="text-align:center;margin-top:5rem">
+        <div class="col-sm-12">
+          <p style="opacity:.6">
+            Seems like you haven't lifted the pen yet.
+          </p>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <router-link to="/create">
+              <strong class="story">
+                Write your first story! ✒️
+              </strong></router-link
+            >
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -67,14 +87,20 @@ export default {
     Pagination,
   },
   created() {
+    console.log(this.searchTerm, this.pageSize, this.pageIndex);
     PostService.findAllByUserPaginated(
       this.searchTerm,
       this.pageSize,
       this.pageIndex
     ).then((data) => {
-      //console.log(data);
-      this.stories = data.items;
-      this.totalPageCount = data.totalPageCount;
+      console.log(data);
+      if (data) {
+        this.stories = data.items;
+        this.totalPageCount = data.totalPageCount;
+      } else {
+        this.stories = [];
+        this.totalPageCount = 0;
+      }
     });
   },
   methods: {
@@ -118,6 +144,9 @@ export default {
 </script>
 
 <style scoped>
+a {
+  color: inherit;
+}
 .search-bar {
   margin-top: 1em;
 }
