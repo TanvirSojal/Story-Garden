@@ -1,4 +1,5 @@
 import axios from "axios";
+import DownloadFile from "../utils/DownloadFile";
 
 const uri = process.env.VUE_APP_POSTS_URI;
 
@@ -82,20 +83,7 @@ const PostService = {
       })
       .then((response) => {
         console.log(response);
-        const fileURL = window.URL.createObjectURL(
-          new Blob([response.data], {
-            type: downloadType,
-          })
-        );
-        const fileLink = document.createElement("a");
-
-        fileLink.href = fileURL;
-        const filename = title + "." + type;
-        fileLink.setAttribute("download", filename);
-        document.body.appendChild(fileLink);
-
-        fileLink.click();
-        document.body.removeChild(fileLink);
+        DownloadFile(response.data, downloadType, title + "." + type);
       })
       .catch((err) => console.log("Failed to download post!", err.message));
   },
