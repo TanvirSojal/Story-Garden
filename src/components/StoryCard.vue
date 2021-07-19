@@ -23,6 +23,25 @@
           <p class="written-by">Written By</p>
           <h5>{{ story.authorName }}</h5>
           <p class="date">{{ formattedDate }}</p>
+          <div style="display:flex">
+            <div v-if="checkModificationAccess">
+              <router-link
+                :to="{
+                  name: 'UpdateStory',
+                  params: {
+                    title: story.title,
+                    content: story.content,
+                    id: story.id,
+                    mode: 'UPDATE',
+                  },
+                }"
+              >
+                <button>✍️ Edit</button></router-link
+              >
+              <button>❌ Delete</button>
+            </div>
+            <button>💾 Export</button>
+          </div>
         </div>
       </div>
     </section>
@@ -34,12 +53,26 @@ import DateFormatter from "../utils/DateFormatter";
 export default {
   name: "StoryCard",
   props: { story: Object },
+  data() {
+    return {
+      username: undefined,
+      role: undefined,
+    };
+  },
+  created() {
+    this.username = localStorage.getItem("storygarden-username");
+    this.role = localStorage.getItem("storygarden-role");
+  },
   computed: {
     // * computed property used to format date from the story prop
     // * because the data is already loaded in the parent prop
     // * the function will not be called with null
     formattedDate() {
       return DateFormatter.toDayMonthYear(this.story.createdAt);
+    },
+    checkModificationAccess() {
+      console.log(this.role);
+      return this.role == 32 || this.story.authorUsername == this.username;
     },
   },
 };
@@ -117,5 +150,20 @@ h5 {
   font-size: large;
   letter-spacing: 0.02rem;
   line-height: 1.8rem;
+}
+
+button {
+  margin-right: 0.8em;
+  padding: 0.2em;
+  border: none;
+  border-radius: 0.2em;
+}
+
+button:hover {
+  background: var(--color-gray-200);
+}
+
+button:active {
+  background: var(--color-gray-100);
 }
 </style>
