@@ -7,6 +7,7 @@ import Story from "../views/Story";
 import UserStories from "../views/UserStories";
 import StoryForm from "../views/StoryForm";
 import NotFound from "../views/NotFound";
+import DeleteStory from "../views/DeleteStory";
 
 const routes = [
   {
@@ -43,6 +44,11 @@ const routes = [
     path: "/update",
     name: "UpdateStory",
     component: StoryForm,
+  },
+  {
+    path: "/delete",
+    name: "DeleteStory",
+    component: DeleteStory,
   },
   {
     // route for 404 page

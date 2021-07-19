@@ -1,22 +1,35 @@
 <template>
-  <div class="container-fluid"></div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-6 offset-sm-3">
+        <section>
+          <div class="row">
+            <div class="col-sm-8 offset-sm-2">
+              <h3>Are you sure you want to delete this story?</h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 offset-sm-2">
+              <h3>{story.title}</h3>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import PostService from "../services/PostService";
+// import PostService from "../services/PostService";
 import router from "../router";
 import { useRoute } from "vue-router";
 export default {
   name: "DeleteStory",
-  props: {
-    story: Object,
-  },
   data() {
     return {
       story: {
         id: "",
         title: "",
-        content: "",
       },
     };
   },
@@ -32,7 +45,6 @@ export default {
     const route = useRoute();
     this.story.id = route.params.id;
     this.story.title = route.params.title;
-    this.story.content = route.params.content;
   },
   methods: {},
 };

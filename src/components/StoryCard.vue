@@ -23,7 +23,7 @@
           <p class="written-by">Written By</p>
           <h5>{{ story.authorName }}</h5>
           <p class="date">{{ formattedDate }}</p>
-          <div style="display:flex">
+          <div style="display:flex; justify-content:space-between">
             <div v-if="checkModificationAccess">
               <router-link
                 :to="{
@@ -38,9 +38,33 @@
               >
                 <button>✍️ Edit</button></router-link
               >
-              <button @click.prevent>❌ Delete</button>
+              <router-link
+                :to="{
+                  name: 'DeleteStory',
+                  params: {
+                    title: story.title,
+                    id: story.id,
+                  },
+                }"
+              >
+                <button>❌ Delete</button></router-link
+              >
             </div>
-            <button @click.prevent>💾 Export</button>
+            <div>
+              <select @click.prevent :value="exportType">
+                <option value="json">JSON</option>
+                <option value="csv">CSV</option>
+                <option value="xml">XML</option>
+                <option value="html">HTML</option>
+                <option value="plain">Text</option>
+              </select>
+              <button
+                @click.prevent="handleExport"
+                style="margin-right:0em; margin-left:.8em"
+              >
+                💾 Export
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -57,6 +81,7 @@ export default {
     return {
       username: undefined,
       role: undefined,
+      exportType: "json",
     };
   },
   created() {
@@ -73,6 +98,11 @@ export default {
     checkModificationAccess() {
       console.log(this.role);
       return this.role == 32 || this.story.authorUsername == this.username;
+    },
+  },
+  methods: {
+    handleExport() {
+      console.log("Exporting", this.story.title, "as:", this.exportType);
     },
   },
 };
