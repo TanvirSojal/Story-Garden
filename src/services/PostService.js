@@ -22,6 +22,28 @@ const PostService = {
       .then((response) => response.data)
       .catch((err) => console.log("Failed to fetch posts! ", err.message));
   },
+
+  findAllByUserPaginated: async (searchTerm, pageSize, pageIndex) => {
+    const token = localStorage.getItem("storygarden-token");
+    return axios
+      .get(uri + "/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          searchTerm: searchTerm,
+          pageSize: pageSize,
+          pageIndex: pageIndex,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        return response.data;
+      })
+      .catch((err) =>
+        console.log("Failed to fetch posts by user! ", err.message)
+      );
+  },
   // ? removed async for testing promise based operations
   findById: async (id) => {
     return axios
@@ -39,6 +61,7 @@ const PostService = {
         console.log("Failed to fetch posts by user! ", err.message)
       );
   },
+
   createPost: async (request) => {
     const token = localStorage.getItem("storygarden-token");
     console.log("token", token);

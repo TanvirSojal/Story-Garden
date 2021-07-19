@@ -22,6 +22,7 @@ const AuthService = {
         console.log("login", response);
         localStorage.setItem("storygarden-token", response.data["token"]);
         localStorage.setItem("storygarden-name", response.data.name);
+        localStorage.setItem("storygarden-role", response.data.role);
         localStorage.setItem("storygarden-username", response.data.username);
         return true;
       })
@@ -33,6 +34,7 @@ const AuthService = {
   logout: () => {
     localStorage.removeItem("storygarden-token");
     localStorage.removeItem("storygarden-name");
+    localStorage.removeItem("storygarden-role");
     localStorage.removeItem("storygarden-username");
   },
 };

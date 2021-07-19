@@ -146,11 +146,13 @@ export default {
     return {
       story: Object,
       username: undefined,
+      role: undefined,
     };
   },
   created() {
     this.username = localStorage.getItem("storygarden-username");
-
+    this.role = localStorage.getItem("storygarden-role");
+    if (this.role) this.role = parseInt(this.role);
     // * date is formatted while loading data
     // * immutability standard maintained
     PostService.findById(this.$route.params.id).then((story) => {
@@ -173,6 +175,11 @@ export default {
         }
       });
     },
+  },
+  computed: {
+    // checkModificationAccess() {
+    //   return this.username === story.authorUsername || this.role == 32;
+    // },
   },
 };
 </script>
