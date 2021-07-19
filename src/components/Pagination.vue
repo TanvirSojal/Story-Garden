@@ -61,6 +61,18 @@ export default {
       }
       end = Math.min(end, this.buttonCount);
 
+      // to show given number of buttons if there are no more buttons on the right
+      const totalShowing = end - start + 1;
+      if (totalShowing < this.show) {
+        console.log("has more", this.show - totalShowing);
+        let showMore = this.show - totalShowing;
+        for (let i = start - 1; showMore > 0 && i > 0; i--) {
+          start = i;
+          showMore--;
+        }
+        // while (start < this.show && start < 2) start--;
+      }
+
       console.log("current", this.currentPage);
       console.log("start", start, "end", end);
       console.log("block", block);
