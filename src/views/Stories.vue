@@ -28,7 +28,7 @@
     <div v-for="story in stories" :key="story._id">
       <div class="row">
         <div class="col-sm-8 offset-sm-2">
-          <StoryCard :story="story" />
+          <StoryCard :story="story" :row="getRow()" />
         </div>
       </div>
     </div>
@@ -60,6 +60,7 @@ export default {
       pageIndex: parseInt(process.env.VUE_APP_DEFAULT_PAGE_INDEX),
       pageDisplaying: parseInt(process.env.VUE_APP_DEFAULT_PAGE_INDEX),
       totalPageCount: 1,
+      row: 0,
     };
   },
   components: {
@@ -74,6 +75,10 @@ export default {
     });
   },
   methods: {
+    getRow() {
+      this.row++;
+      return this.row;
+    },
     async handleSearch(e) {
       e.preventDefault();
 
