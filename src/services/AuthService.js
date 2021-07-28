@@ -19,7 +19,7 @@ const AuthService = {
     return axios
       .post(uri + "/login", request)
       .then((response) => {
-        console.log("login", response);
+        // console.log("login", response);
         localStorage.setItem("storygarden-token", response.data["token"]);
         localStorage.setItem("storygarden-name", response.data.name);
         localStorage.setItem("storygarden-role", response.data.role);

@@ -28,7 +28,7 @@
     <div v-for="story in stories" :key="story._id">
       <div class="row">
         <div class="col-sm-8 offset-sm-2">
-          <StoryCard :story="story" :row="getRow()" />
+          <StoryCard :story="story" />
         </div>
       </div>
     </div>

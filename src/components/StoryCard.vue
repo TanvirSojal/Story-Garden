@@ -50,7 +50,7 @@
                   },
                 }"
               >
-                <button @click.prevent="handleShowModal">
+                <button>
                   ❌ Delete
                 </button>
               </router-link>
@@ -70,39 +70,6 @@
                 💾 Export
               </button>
             </div>
-
-            <div class="modal" tabindex="-1" role="dialog">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
-                    <button
-                      type="button"
-                      class="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <p>Modal body text goes here.</p>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">
-                      Save changes
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -115,21 +82,18 @@ import DateFormatter from "../utils/DateFormatter";
 import PostService from "../services/PostService";
 export default {
   name: "StoryCard",
-  props: { story: Object, row: Number },
+  props: { story: Object },
   data() {
     return {
       username: undefined,
       role: undefined,
       exportType: "json",
       postToDelete: "",
-      rowId: "",
-      showModal: false,
     };
   },
   created() {
     this.username = localStorage.getItem("storygarden-username");
     this.role = localStorage.getItem("storygarden-role");
-    this.rowId = "modal" + this.row;
   },
   computed: {
     // * computed property used to format date from the story prop
