@@ -10,26 +10,27 @@
               <h2>{{ story.title }}</h2>
 
               <p class="story">
-                {{ story.body }}
+                {{ story.content }}
               </p>
             </div>
             <div class="col-sm-4 info">
               <div class="row">
                 <div class="col-sm-12">
                   <p class="written-by">Written By</p>
-                  <h5 class="author">{{ story.author }}</h5>
-                  <p class="date">{{ story.date }}</p>
+                  <h5 class="author">{{ story.authorName }}</h5>
+                  <p class="date">Created: {{ story.date }}</p>
+                  <p class="date">Last Updated: {{ story.updateDate }}</p>
                 </div>
               </div>
-              <div v-if="username === story.username" class="row mt-4">
+              <div v-if="checkModificationAccess" class="row mt-4">
                 <div class="col-lg-6 pt-2">
                   <router-link
                     :to="{
                       name: 'UpdateStory',
                       params: {
                         title: story.title,
-                        body: story.body,
-                        id: story._id,
+                        content: story.content,
+                        id: story.id,
                         mode: 'UPDATE',
                       },
                     }"
@@ -145,18 +146,21 @@ export default {
     return {
       story: Object,
       username: undefined,
+      role: undefined,
     };
   },
   created() {
     this.username = localStorage.getItem("storygarden-username");
-
+    this.role = localStorage.getItem("storygarden-role");
+    if (this.role) this.role = parseInt(this.role);
     // * date is formatted while loading data
     // * immutability standard maintained
     PostService.findById(this.$route.params.id).then((story) => {
       if (story) {
         this.story = {
           ...story,
-          date: DateFormatter.toDayMonthYear(story.date),
+          date: DateFormatter.toDayMonthYear(story.createdAt),
+          updateDate: DateFormatter.toDayMonthYear(story.lastUpdatedAt),
         };
       } else {
         router.push("/404");
@@ -165,11 +169,17 @@ export default {
   },
   methods: {
     handleDelete() {
-      PostService.deleteById(this.story._id).then((response) => {
+      PostService.deleteById(this.story.id).then((response) => {
         if (response) {
           router.push("/");
         }
       });
+    },
+  },
+  computed: {
+    checkModificationAccess() {
+      console.log(this.role);
+      return this.role == 32 || this.story.authorUsername == this.username;
     },
   },
 };
@@ -212,6 +222,7 @@ section:active {
 
 .date {
   color: var(--color-dark);
+  margin-bottom: 0.5em;
 }
 
 h2,

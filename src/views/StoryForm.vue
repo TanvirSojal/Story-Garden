@@ -41,7 +41,7 @@
               </div>
               <div class="row" id="write-section">
                 <div class="col-sm-12">
-                  <textarea v-model="story.body" required />
+                  <textarea v-model="story.content" required />
                 </div>
               </div>
             </div>
@@ -85,7 +85,7 @@ export default {
       story: {
         id: "",
         title: "",
-        body: "",
+        content: "",
       },
       criteria: {
         "story-title": "",
@@ -112,7 +112,7 @@ export default {
     }
     this.story.id = route.params.id;
     this.story.title = route.params.title;
-    this.story.body = route.params.body;
+    this.story.content = route.params.content;
   },
   methods: {
     handlePublish(e) {
@@ -122,7 +122,7 @@ export default {
         "story-title": "",
       };
 
-      if (!this.story.title || !this.story.body) {
+      if (!this.story.title || !this.story.content) {
         this.status = "Story title and body can not be empty!";
         return;
       }
@@ -140,11 +140,11 @@ export default {
     handleCreateStory() {
       PostService.createPost({
         title: this.story.title,
-        body: this.story.body,
+        content: this.story.content,
       }).then((data) => {
         if (data) {
           console.log(data);
-          router.push("/stories/" + data._id);
+          router.push("/stories/" + data.id);
         } else {
           this.status = "Failed to create new story!";
         }
@@ -155,11 +155,11 @@ export default {
       console.log("update!");
       PostService.updateById(this.story.id, {
         title: this.story.title,
-        body: this.story.body,
+        content: this.story.content,
       }).then((data) => {
         if (data) {
           // console.log(response);
-          router.push("/stories/" + data._id);
+          router.push("/stories/" + data.id);
         } else {
           this.status = "Failed to update post!";
         }
