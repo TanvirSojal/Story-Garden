@@ -1,5 +1,4 @@
 import axios from "axios";
-import DownloadFile from "../utils/DownloadFile";
 
 const uri = process.env.VUE_APP_POSTS_URI;
 
@@ -11,83 +10,13 @@ const PostService = {
       .then((response) => response.data)
       .catch((err) => console.log("Failed to fetch posts! ", err.message));
   },
-  findAllByQueryFilter: async (searchTerm, pageSize, pageIndex) => {
-    return axios
-      .get(uri, {
-        params: {
-          searchTerm: searchTerm,
-          pageSize: pageSize,
-          pageIndex: pageIndex,
-        },
-      })
-      .then((response) => response.data)
-      .catch((err) => console.log("Failed to fetch posts! ", err.message));
-  },
-
-  findAllByUserPaginated: async (searchTerm, pageSize, pageIndex) => {
-    const token = localStorage.getItem("storygarden-token");
-    // console.log(token);
-    return axios
-      .get(uri + "/user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          searchTerm: searchTerm,
-          pageSize: pageSize,
-          pageIndex: pageIndex,
-        },
-      })
-      .then((response) => {
-        console.log(response);
-        return response.data;
-      })
-      .catch((err) =>
-        console.log("Failed to fetch posts by user!", err.message)
-      );
-  },
   // ? removed async for testing promise based operations
   findById: async (id) => {
     return axios
       .get(uri + "/" + id)
       .then((response) => response.data)
-      .catch((err) => console.log("Failed to fetch post!", err.message));
+      .catch((err) => console.log("Failed to fetch post! ", err.message));
   },
-
-  DownloadById: async (id, title, type) => {
-    let downloadType;
-    switch (type) {
-      case "csv":
-        downloadType = "text/csv";
-        break;
-      case "xml":
-        downloadType = "application/xml";
-        break;
-      case "html":
-        downloadType = "text/html";
-        break;
-      case "plain":
-        downloadType = "text/plain";
-        break;
-      default:
-        downloadType = "application/json";
-        break;
-    }
-
-    return axios
-      .get(uri + "/" + id, {
-        responseType: "blob",
-        headers: {
-          Accept: downloadType,
-        },
-      })
-      .then((response) => {
-        console.log(response);
-        DownloadFile(response.data, downloadType, title + "." + type);
-      })
-      .catch((err) => console.log("Failed to download post!", err.message));
-  },
-
   findByUser: async (username) => {
     return axios
       .get(uri)
@@ -98,15 +27,12 @@ const PostService = {
         console.log("Failed to fetch posts by user! ", err.message)
       );
   },
-
   createPost: async (request) => {
     const token = localStorage.getItem("storygarden-token");
-    console.log("token", token);
-    console.log(request);
     return axios
       .post(uri, request, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          "auth-token": token,
         },
       })
       .then((response) => response.data)
@@ -117,11 +43,10 @@ const PostService = {
   },
   updateById: async (id, post) => {
     const token = localStorage.getItem("storygarden-token");
-    console.log(post);
     return axios
       .put(uri + "/" + id, post, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          "auth-token": token,
         },
       })
       .then((response) => response.data)
@@ -132,12 +57,10 @@ const PostService = {
   },
   deleteById: async (id) => {
     const token = localStorage.getItem("storygarden-token");
-    // console.log(token);
-    // console.log(uri + "/" + id);
     return axios
       .delete(uri + "/" + id, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          "auth-token": token,
         },
       })
       .then((response) => {

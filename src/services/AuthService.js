@@ -5,7 +5,7 @@ const uri = process.env.VUE_APP_USERS_URI;
 const AuthService = {
   register: async (request) => {
     return axios
-      .post(uri + "/registration", request)
+      .post(uri, request)
       .then((response) => {
         console.log("registration", response.status);
         return true;
@@ -20,9 +20,11 @@ const AuthService = {
       .post(uri + "/login", request)
       .then((response) => {
         // console.log("login", response);
-        localStorage.setItem("storygarden-token", response.data["token"]);
+        localStorage.setItem(
+          "storygarden-token",
+          response.headers["auth-token"]
+        );
         localStorage.setItem("storygarden-name", response.data.name);
-        localStorage.setItem("storygarden-role", response.data.role);
         localStorage.setItem("storygarden-username", response.data.username);
         return true;
       })
@@ -34,7 +36,6 @@ const AuthService = {
   logout: () => {
     localStorage.removeItem("storygarden-token");
     localStorage.removeItem("storygarden-name");
-    localStorage.removeItem("storygarden-role");
     localStorage.removeItem("storygarden-username");
   },
 };
