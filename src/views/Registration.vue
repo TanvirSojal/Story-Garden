@@ -6,7 +6,7 @@
 
   <div v-else class="container-fluid">
     <div class="row">
-      <div class="col-sm-6 offset-sm-3">
+      <div class="col-sm-4 offset-sm-4">
         <section>
           <div class="row">
             <div class="col-sm-12">
@@ -35,22 +35,6 @@
               <div class="row" id="username-section">
                 <div class="col-sm-12">
                   <input v-model="user.username" type="text" required />
-                </div>
-              </div>
-            </div>
-
-            <div class="pt-3">
-              <div class="row pt-2 pb-3">
-                <div class="col-sm-12">
-                  <label id="username-label" for="username">Role</label>
-                </div>
-              </div>
-              <div class="row" id="username-section">
-                <div class="col-sm-12">
-                  <select v-model="user.role" class="select-role">
-                    <option value="1">USER</option>
-                    <option value="32">ADMIN</option>
-                  </select>
                 </div>
               </div>
             </div>
@@ -140,7 +124,6 @@ export default {
       user: {
         name: "",
         username: "",
-        role: 1,
         password: "",
         confirmedPassword: "",
       },
@@ -174,7 +157,6 @@ export default {
         name: this.user.name,
         username: this.user.username,
         password: this.user.password,
-        role: parseInt(this.user.role),
       }).then((data) =>
         data
           ? (this.registrationComplete = true)
@@ -375,14 +357,6 @@ button:hover {
 button:active {
   background: var(--color-white);
   color: var(--color-accent);
-}
-
-.select-role {
-  width: 100%;
-  height: 140%;
-  padding: 4px;
-  color: var(--color-black);
-  font-weight: bold;
 }
 
 #status {

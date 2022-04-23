@@ -2,7 +2,7 @@
   <router-link
     :to="{
       name: 'Story',
-      params: { id: story.id },
+      params: { id: story._id },
     }"
   >
     <section>
@@ -12,65 +12,17 @@
           <h2>{{ story.title }}</h2>
           <p class="story">
             {{
-              story.content.length > 200
-                ? story.content.slice(0, 200) + "..."
-                : story.content
+              story.body.length > 200
+                ? story.body.slice(0, 200) + "..."
+                : story.body
             }}
-            <span>{{ story.content.length > 200 ? "Read More" : "" }}</span>
+            <span>{{ story.body.length > 200 ? "Read More" : "" }}</span>
           </p>
         </div>
         <div class="col-sm-4 info">
           <p class="written-by">Written By</p>
-          <h5>{{ story.authorName }}</h5>
+          <h5>{{ story.author }}</h5>
           <p class="date">{{ formattedDate }}</p>
-          <div style="display:flex; justify-content:space-between">
-            <div v-if="checkModificationAccess">
-              <router-link
-                :to="{
-                  name: 'UpdateStory',
-                  params: {
-                    title: story.title,
-                    content: story.content,
-                    id: story.id,
-                    mode: 'UPDATE',
-                  },
-                }"
-              >
-                <button>✍️ Edit</button></router-link
-              >
-              <router-link
-                :to="{
-                  name: 'DeleteStory',
-                  params: {
-                    title: story.title,
-                    id: story.id,
-                    authorName: story.authorName,
-                    createdAt: story.createdAt,
-                    lastUpdatedAt: story.lastUpdatedAt,
-                  },
-                }"
-              >
-                <button>
-                  ❌ Delete
-                </button>
-              </router-link>
-            </div>
-            <div>
-              <select @click.prevent v-model="exportType">
-                <option value="json">JSON</option>
-                <option value="csv">CSV</option>
-                <option value="xml">XML</option>
-                <option value="html">HTML</option>
-                <option value="plain">Text</option>
-              </select>
-              <button
-                @click.prevent="handleExport"
-                style="margin-right:0em; margin-left:.8em"
-              >
-                💾 Export
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -79,57 +31,15 @@
 
 <script>
 import DateFormatter from "../utils/DateFormatter";
-import PostService from "../services/PostService";
 export default {
   name: "StoryCard",
   props: { story: Object },
-  data() {
-    return {
-      username: undefined,
-      role: undefined,
-      exportType: "json",
-      postToDelete: "",
-    };
-  },
-  created() {
-    this.username = localStorage.getItem("storygarden-username");
-    this.role = localStorage.getItem("storygarden-role");
-  },
   computed: {
     // * computed property used to format date from the story prop
     // * because the data is already loaded in the parent prop
     // * the function will not be called with null
     formattedDate() {
-      return DateFormatter.toDayMonthYear(this.story.createdAt);
-    },
-    checkModificationAccess() {
-      // console.log(this.role);
-      return this.role == 32 || this.story.authorUsername == this.username;
-    },
-  },
-  methods: {
-    handleShowModal() {
-      this.showModal = true;
-    },
-    handleExport() {
-      // console.log("Exporting", this.story.title, "as:", this.exportType);
-      PostService.DownloadById(
-        this.story.id,
-        this.story.title,
-        this.exportType
-      );
-    },
-    deleteButtonClick() {
-      this.postToDelete = this.story.title;
-      console.log(this.story.title, this.postToDelete);
-    },
-    handleDelete() {
-      console.log(
-        "Deleting title:",
-        this.story.title,
-        "post to delete:",
-        this.postToDelete
-      );
+      return DateFormatter.toDayMonthYear(this.story.date);
     },
   },
 };
@@ -207,20 +117,5 @@ h5 {
   font-size: large;
   letter-spacing: 0.02rem;
   line-height: 1.8rem;
-}
-
-button {
-  margin-right: 0.8em;
-  padding: 0.2em;
-  border: none;
-  border-radius: 0.2em;
-}
-
-button:hover {
-  background: var(--color-gray-200);
-}
-
-button:active {
-  background: var(--color-gray-100);
 }
 </style>
